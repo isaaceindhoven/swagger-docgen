@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: nl.jworks.markdown_to_asciidoc:markdown_to_asciidoc:1.0">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/nl/jworks/markdown_to_asciidoc/markdown_to_asciidoc/1.0/markdown_to_asciidoc-1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/nl/jworks/markdown_to_asciidoc/markdown_to_asciidoc/1.0/markdown_to_asciidoc-1.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/nl/jworks/markdown_to_asciidoc/markdown_to_asciidoc/1.0/markdown_to_asciidoc-1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
