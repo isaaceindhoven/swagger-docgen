@@ -8,5 +8,16 @@
     <artifactId>SwaggerMarkupGen</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>io.github.swagger2markup</groupId>
+            <artifactId>swagger2markup</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.robwin</groupId>
+            <artifactId>markup-document-builder</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
 </project>
