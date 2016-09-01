@@ -1,6 +1,6 @@
 title_page:
   align: left
-  background_image: cover.png #//TODO: Make this work
+  background_image: image:cover.png[] #//TODO: Make this work
 page:
   layout: portrait
   margin: [0.75in, 1in, 0.75in, 1in]
@@ -15,6 +15,7 @@ font:
     tahoma:
       normal: tahoma.ttf
       bold: tahomabd.ttf
+  fallbacks: [consolas]
 base:
   font_color: #333333
   line_height_length: 17
