@@ -41,3 +41,6 @@ hs_err_pid*
 /out/
 /target/
 /build/
+/work/output/
+/work/input/
+/work/temp/

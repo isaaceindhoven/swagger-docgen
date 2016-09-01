@@ -22,11 +22,11 @@ public class Main {
         logger.info("Hello World");
 
         try {
-            File folder = new File("build/asciidoc");
+            File folder = new File("work/temp");
             emptyFolder(folder);
             //URL swaggerFile = new URL("http://petstore.swagger.io/v2/swagger.json");
-            Path swaggerFile = Paths.get("spec.yaml");
-            Path outputFile = Paths.get("build/asciidoc/api_" + getDateString());
+            Path swaggerFile = Paths.get("work/input/spec.yaml");
+            Path outputFile = Paths.get("work/temp/api_" + getDateString());
 
             Swagger2MarkupConfig config = new Swagger2MarkupConfigBuilder()
                     .withMarkupLanguage(MarkupLanguage.ASCIIDOC)

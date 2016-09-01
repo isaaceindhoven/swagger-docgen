@@ -17,18 +17,16 @@
                 <artifactId>asciidoctor-maven-plugin</artifactId>
                 <version>1.5.3</version>
                 <configuration>
-                    <sourceDirectory>build/asciidoc</sourceDirectory>
-                    <outputDirectory>build/generated</outputDirectory>
+                    <sourceDirectory>work/temp</sourceDirectory>
+                    <outputDirectory>work/output</outputDirectory>
                     <sourceHighlighter>coderay</sourceHighlighter>
+
                     <backend>pdf</backend>
                     <attributes>
-                        <theme>customTheme.yml</theme>
+                        <pdf-stylesdir>${project.basedir}/work/template</pdf-stylesdir>
+                        <pdf-style>isaac</pdf-style>
+                        <pdf-fontsdir>${project.basedir}/work/template/fonts</pdf-fontsdir>
                     </attributes>
-                    <!--
-                    <attributes>
-                        <stylesheet>style.css</stylesheet>
-                    </attributes>
-                    -->
                 </configuration>
                 <executions>
                     <execution>

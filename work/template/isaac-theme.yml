@@ -1,29 +1,40 @@
 title_page:
   align: left
   background_image: cover.png
-
 page:
   layout: portrait
   margin: [0.75in, 1in, 0.75in, 1in]
   size: A4
+font:
+  catalog:
+    consolas:
+      normal: consola.ttf
+      italic: consolai.ttf
+      bold: consolab.ttf
+      bold_italic: consolaz.ttf
+    tahoma:
+      normal: tahoma.ttf
+      bold: tahomabd.ttf
 base:
   font_color: #333333
   line_height_length: 17
   line_height: $base_line_height_length / $base_font_size
+  font_size: 12
 vertical_rhythm: $base_line_height_length
 heading:
-  font_color: #FF8000
+  font_color: #009ddc
   font_size: 17
   font_style: bold
   line_height: 1.2
   margin_bottom: $vertical_rhythm
+  font_family: tahoma
 link:
-  font_color: #009900
+  font_color: #009ddc
 outline_list:
   indent: $base_font_size * 1.5
 header:
   height: 0.75in
-  line_height: 1
+  line_height: 0 #0 = disable
   recto_content:
     center: '{document-title}'
   verso_content:
@@ -32,12 +43,16 @@ footer:
   height: 0.75in
   line_height: 1
   recto_content:
-    right: '{chapter-title} | *{page-number}*'
+    right: '{document-title} | *{page-number}*'
   verso_content:
-    left: '*{page-number}* | {chapter-title}'
+    left: '*{page-number}* | {document-title}'
 image:
   align: center
 caption:
   align: center
   font_color: #FF0000
   font_size: 10
+code:
+  font_family: consolas
+
+# https://github.com/asciidoctor/asciidoctor-pdf/blob/master/docs/theming-guide.adoc
