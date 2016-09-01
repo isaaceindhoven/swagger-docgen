@@ -1,6 +1,6 @@
 title_page:
   align: left
-  background_image: cover.png
+  background_image: cover.png #//TODO: Make this work
 page:
   layout: portrait
   margin: [0.75in, 1in, 0.75in, 1in]
