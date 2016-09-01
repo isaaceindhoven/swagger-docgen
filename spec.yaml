@@ -20,7 +20,9 @@
    "paths":{
       "/application":{
          "get":{
+           "tags":["application"],
             "summary":"returns the application information for the current application",
+            "description":"This is a long textThis is a long textThis is a long textThis is a long textThis is a long textThis is a long textThis is a long textThis is a long textThis is a long text",
             "parameters":[
                {
                   "name":"sessionId",
@@ -92,6 +94,7 @@
             }
          },
          "delete":{
+            "tags":["application"],
             "summary":"cancels the current application (clears the session)",
             "parameters":[
                {
@@ -166,6 +169,7 @@
       },
       "/application/basket":{
          "put":{
+            "tags":["application"],
             "summary":"updates the basket step information",
             "parameters":[
                {
@@ -248,6 +252,7 @@
       },
       "/application/plan":{
          "put":{
+            "tags":["application"],
             "summary":"updates the plan (flexometer) step information",
             "parameters":[
                {
@@ -330,6 +335,7 @@
       },
       "/application/eligibility":{
          "put":{
+            "tags":["application"],
             "summary":"updates the eligibility step information",
             "parameters":[
                {
@@ -412,6 +418,7 @@
       },
       "/application/apply":{
          "put":{
+            "tags":["application"],
             "summary":"updates the apply step information",
             "parameters":[
                {
@@ -494,6 +501,7 @@
       },
       "/application/uru":{
          "put":{
+            "tags":["application"],
             "summary":"updates the uru step information",
             "parameters":[
                {
@@ -576,6 +584,7 @@
       },
       "/application/uruRepeatSpend":{
          "put":{
+            "tags":["application"],
             "summary":"Send the URU information for the repeat spend URU post review step. Differs from the /uru endpoint in that it does not include the proofOfId information",
             "parameters":[
                {
@@ -658,6 +667,7 @@
       },
       "/application/review":{
          "put":{
+            "tags":["application"],
             "summary":"updates all the info in the review step in one go",
             "parameters":[
                {
@@ -740,6 +750,7 @@
       },
       "/application/approved":{
           "get":{
+            "tags":["application"],
             "summary":"indicates that the user wants to download the contract as a PDF",
             "parameters":[
                {
@@ -757,6 +768,7 @@
             }
          },
          "put":{
+            "tags":["application"],
             "summary":"indicates that the user wants to start e-signing",
             "parameters":[
                {
@@ -831,6 +843,7 @@
       },
       "/application/sms":{
          "post":{
+            "tags":["application"],
             "summary":"sends the SMS token challenge to the server",
             "parameters":[
                {
@@ -913,6 +926,7 @@
       },
       "/application/securityCode":{
          "post":{
+            "tags":["application"],
             "summary":"sends the security code that the user had to fill in before he could continue the application",
             "parameters":[
                {
@@ -995,6 +1009,7 @@
       },
       "/application/customerSelect":{
          "put":{
+            "tags":["application"],
             "summary":"Sets the customer with the given id as the correctly recognized customer.",
             "parameters":[
                {
@@ -1086,6 +1101,7 @@
       },
       "/application/continueLater":{
          "get":{
+            "tags":["application"],
             "summary":"Retrieve save and return info out for the current application",
             "parameters":[
                {
@@ -1158,6 +1174,7 @@
             }
          },
          "post":{
+            "tags":["application"],
             "summary":"do everything that needs to be done to enable a S&R for the current application",
             "parameters":[
                {
@@ -1240,6 +1257,7 @@
       },
       "/address":{
          "post":{
+            "tags":["address"],
             "summary":"returns a list of address partials or a full address that match the search query",
             "parameters":[
                {
@@ -1353,7 +1371,7 @@
                   "smsCustomerRecognition",
                   "declinedCustomerRecognition",
                   "securityCode",
-                  "preApproved"             
+                  "preApproved"
                ]
             },
             "redirectUrl":{
@@ -1392,7 +1410,7 @@
             "longContinueLaterTokenNeedsSecurityCode":{
                "type":"boolean",
                "description":"If true the continueLater POST call must provide a security code."
-            },         
+            },
             "matchingCustomers":{
                "type":"array",
                "items":{
@@ -1635,14 +1653,17 @@
             },
             "houseNumber":{
                "type":"string",
+               "example":"32",
                "maxLength":10
             },
             "postCode":{
                "type":"string",
+               "example":"GU25 4EZ",
                "maxLength":8
             },
             "streetName":{
-               "type":"string",
+               "type":"String",
+               "example":"Cabrera Avenue",
                "maxLength":28
             },
             "district":{
@@ -1650,11 +1671,13 @@
                "maxLength":28
             },
             "town":{
-               "type":"string",
+               "type":"String",
+               "example":"Virginia Water",
                "maxLength":20
             },
             "county":{
                "type":"string",
+               "example":"Surrey",
                "maxLength":28
             },
             "isManualEntry":{
