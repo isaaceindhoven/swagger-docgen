@@ -2175,7 +2175,8 @@
          "properties":{
             "token":{
                "type":"string",
-               "maxLength":60
+               "maxLength":60,
+               "example":"hello, world!"
             }
          }
       },

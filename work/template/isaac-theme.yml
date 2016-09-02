@@ -45,8 +45,10 @@ footer:
   line_height: 1
   recto_content:
     right: '{document-title} | *{page-number}*'
+    # right: '{section-or-chapter-title} | {page-number}'
   verso_content:
     left: '*{page-number}* | {document-title}'
+    # left: '{page-number} | {chapter-title}'
 image:
   align: center
 caption:
