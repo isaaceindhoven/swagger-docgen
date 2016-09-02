@@ -2330,7 +2330,7 @@
                "enum":[
                   "system",
                   "application"
-               ]
+   ]
             },
             "type":{
                "type":"string",
@@ -2350,4 +2350,6 @@
          }
       }
    }
+}
+
 }
