@@ -22,6 +22,7 @@
                     <sourceHighlighter>coderay</sourceHighlighter>
 
                     <backend>pdf</backend>
+                    <doctype>book</doctype>
                     <attributes>
                         <pdf-stylesdir>${project.basedir}/work/template</pdf-stylesdir>
                         <pdf-style>isaac</pdf-style>

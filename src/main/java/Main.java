@@ -4,8 +4,6 @@ import io.github.swagger2markup.Swagger2MarkupConfig;
 import io.github.swagger2markup.Swagger2MarkupConverter;
 import io.github.swagger2markup.builder.Swagger2MarkupConfigBuilder;
 import io.github.swagger2markup.markup.builder.MarkupLanguage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -17,10 +15,6 @@ import java.time.LocalDateTime;
  */
 public class Main {
     public static void main(String[] args) {
-        Logger logger = LoggerFactory.getLogger(Main.class);
-
-        logger.info("Hello World");
-
         try {
             File folder = new File("work/temp");
             emptyFolder(folder);
