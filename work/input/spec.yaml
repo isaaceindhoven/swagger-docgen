@@ -1,22 +1,38 @@
 {
-   "swagger":"2.0",
-   "info":{
-      "title":"Ways to Pay Apply API for the unassisted journey",
-      "description":"This Swagger spec describes all the functionality that the Ways to Pay RESTfull API for the unassisted journey exposes to the HTML frontend.",
-      "version":"0.0.1",
-      "contact":{
-         "name":"Koen Peters",
-         "email":"koen@isaac.nl"
+  "swagger":"2.0",
+  "info":{
+    "title":"Ways to Pay Apply API for the unassisted journey",
+    "description":"This Swagger spec describes all the functionality that the Ways to Pay RESTfull API for the unassisted journey exposes to the HTML frontend.",
+    "version":"0.0.1",
+    "contact":
+    {
+      "name":"John Doe",
+      "email":"john@doe.com",
+      "url":"https://example.com"
+    }
+  },
+  "securityDefinitions":{
+    "OAuth 2":{
+      "type": "oauth2",
+      "authorizationUrl": "https://api.example.com/oauth/dialog",
+      "flow": "implicit",
+      "scopes": {
+        "write:address": "Modify customer addresses",
+        "read:address": "Read customer addresses",
+        "read:customer": "Read customers",
+        "write:customer": "Write customers"
       }
-   },
-   "host":"apply.waystopay.dixons.co.uk",
+    }
+  },
+   "host":"api.example.com",
    "schemes":[
-      "https"
+      "https", "http"
    ],
-   "basePath":"/api/v1",
+   "basePath":"/",
    "produces":[
       "application/json"
    ],
+
    "paths":{
       "/application":{
          "get":{
@@ -1662,7 +1678,7 @@
                "maxLength":8
             },
             "streetName":{
-               "type":"String",
+               "type":"string",
                "example":"Cabrera Avenue",
                "maxLength":28
             },
@@ -1671,7 +1687,7 @@
                "maxLength":28
             },
             "town":{
-               "type":"String",
+               "type":"string",
                "example":"Virginia Water",
                "maxLength":20
             },
