@@ -12,7 +12,8 @@
     }
   },
   "securityDefinitions":{
-    "OAuth 2":{
+    "OAuth 2": {
+      "description": "This is the best security you get, but doesn't always fit you rneeds",
       "type": "oauth2",
       "authorizationUrl": "https://api.example.com/oauth/dialog",
       "flow": "implicit",
@@ -22,6 +23,12 @@
         "read:customer": "Read customers",
         "write:customer": "Write customers"
       }
+    },
+    "API key": {
+      "description": "Authenticate with the API using an api key, not as safe as OAuth 2 but much easier to implement",
+      "type": "apiKey",
+      "name": "key",
+      "in": "header"
     }
   },
    "host":"api.example.com",
