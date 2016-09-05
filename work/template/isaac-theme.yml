@@ -8,6 +8,7 @@ brand:
   caution: dc3f00         # This can easily go wrong
   info: $brand_primary
   important: dc002f       # Reader should definitely read this
+  note: 002fdc            # Accompanying information, does not have to be read
 
 title_page:
   align: right
@@ -71,6 +72,7 @@ admonition:
       stroke_color: $brand_info
     note:
       name: fa-info
+      stroke_color: $brand_note
     warning:
       name: fa-exclamation-triangle
       stroke_color: $brand_warning
