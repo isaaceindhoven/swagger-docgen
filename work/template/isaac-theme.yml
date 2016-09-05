@@ -53,6 +53,13 @@ footer:
     # left: '{page-number} | {chapter-title}'
 image:
   align: center
+admonition:
+  icon:
+    tip_name: fa-note
+    note_name: fa-sticky-note-o
+    warning_name: fa-exclamation-triangle
+    important_name: fa-exclamation
+    caution_name: fa-fire
 caption:
   align: center
   font_color: #FF0000
