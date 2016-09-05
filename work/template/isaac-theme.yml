@@ -1,6 +1,6 @@
 title_page:
-  align: left
-  background_image: image:cover.png[] #//TODO: Make this work
+  align: right
+  logo_image: image:cover.png[width=250,align=center]
 page:
   layout: portrait
   margin: [0.75in, 1in, 0.75in, 1in]
@@ -15,7 +15,7 @@ font:
     tahoma:
       normal: tahoma.ttf
       bold: tahomabd.ttf
-  fallbacks: [consolas]
+  fallbacks: [consolas, Times-Roman]
 base:
   font_color: #333333
   line_height_length: 17
@@ -33,6 +33,8 @@ link:
   font_color: #009ddc
 outline_list:
   indent: $base_font_size * 1.5
+blockquote:
+  font_style: italic
 header:
   height: 0.75in
   line_height: 0 #0 = disable
