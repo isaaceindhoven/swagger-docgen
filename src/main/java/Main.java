@@ -25,7 +25,7 @@ public class Main {
             Swagger2MarkupConfig config = new Swagger2MarkupConfigBuilder()
                     .withMarkupLanguage(MarkupLanguage.ASCIIDOC)
                     .withOutputLanguage(Language.EN)
-                    .withPathsGroupedBy(GroupBy.TAGS)
+                    //.withPathsGroupedBy(GroupBy.TAGS)
                     .withGeneratedExamples()
                     .withInterDocumentCrossReferences()
                     .build();

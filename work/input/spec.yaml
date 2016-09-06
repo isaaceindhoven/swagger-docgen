@@ -1,2363 +1,375 @@
-{
-  "swagger":"2.0",
-  "info":{
-    "title":"Ways to Pay Apply API for the unassisted journey",
-    "description":"This Swagger spec describes all the functionality that the Ways to Pay RESTfull API for the unassisted journey exposes to the HTML frontend.",
-    "version":"0.0.1",
-    "contact":
-    {
-      "name":"John Doe",
-      "email":"john@doe.com",
-      "url":"https://example.com"
-    }
-  },
-  "securityDefinitions":{
-    "OAuth 2": {
-      "description": "This is the best security you get, but doesn't always fit you rneeds",
-      "type": "oauth2",
-      "authorizationUrl": "https://api.example.com/oauth/dialog",
-      "flow": "implicit",
-      "scopes": {
-        "write:address": "Modify customer addresses",
-        "read:address": "Read customer addresses",
-        "read:customer": "Read customers",
-        "write:customer": "Write customers"
-      }
-    },
-    "API key": {
-      "description": "Authenticate with the API using an api key, not as safe as OAuth 2 but much easier to implement",
-      "type": "apiKey",
-      "name": "key",
-      "in": "header"
-    }
-  },
-   "host":"api.example.com",
-   "schemes":[
-      "https", "http"
-   ],
-   "basePath":"/",
-   "produces":[
-      "application/json"
-   ],
-
-   "paths":{
-      "/application":{
-         "get":{
-           "tags":["application"],
-            "summary":"returns the application information for the current application",
-            "description":"This is a long textThis is a long textThis is a long textThis is a long textThis is a long textThis is a long textThis is a long textThis is a long textThis is a long text",
-            "parameters":[
-               {
-                  "name":"sessionId",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the session id",
-                  "required":true
-               },
-               {
-                  "name":"blackbox",
-                  "in":"header",
-                  "type":"string",
-                  "description":"Contains hashed blackbox value for device fingerprinting",
-                  "required":true
-               },
-               {
-                  "name":"autoSaveToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the short lived auto save token",
-                  "required":true
-               },
-               {
-                  "name":"ssoToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the SSO token set by the OAM",
-                  "required":false
-               },
-               {
-                  "name":"__RequestVerificationToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The CSRF token that is set in the HTML and used in all ajax requests",
-                  "required":true
-               }
-            ],
-            "responses":{
-               "200":{
-                  "description":"The request was successful. The current state of the application is returned.",
-                  "schema":{
-                     "$ref":"#/definitions/State"
-                  }
-               },
-               "400":{
-                  "description":"The request failed due to incorrect data that the user sent.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "401":{
-                  "description":"The user is not logged in",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "403":{
-                  "description":"The user is logged in but does not have the correct role to do this call",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "500":{
-                  "description":"The request failed due to a server runtime error. It's not the user's fault.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               }
-            }
-         },
-         "delete":{
-            "tags":["application"],
-            "summary":"cancels the current application (clears the session)",
-            "parameters":[
-               {
-                  "name":"sessionId",
-                  "in":"header",
-                  "description":"The cookie that contains the session id",
-                  "required":true,
-                  "type":"string"
-               },
-               {
-                  "name":"blackbox",
-                  "in":"header",
-                  "type":"string",
-                  "description":"Contains hashed blackbox value for device fingerprinting",
-                  "required":true
-               },
-               {
-                  "name":"autoSaveToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the short lived auto save token",
-                  "required":true
-               },
-               {
-                  "name":"ssoToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the SSO token set by the OAM",
-                  "required":false
-               },
-               {
-                  "name":"__RequestVerificationToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The CSRF token that is set in the HTML and used in all ajax requests",
-                  "required":true
-               }
-            ],
-            "responses":{
-               "200":{
-                  "description":"The request was successful. The current state of the application is returned.",
-                  "schema":{
-                     "$ref":"#/definitions/State"
-                  }
-               },
-               "400":{
-                  "description":"The request failed due to incorrect data that the user sent.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "401":{
-                  "description":"The user is not logged in",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "403":{
-                  "description":"The user is logged in but does not have the correct role to do this call",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "500":{
-                  "description":"The request failed due to a server runtime error. It's not the user's fault.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               }
-            }
-         }
-      },
-      "/application/basket":{
-         "put":{
-            "tags":["application"],
-            "summary":"updates the basket step information",
-            "parameters":[
-               {
-                  "name":"sessionId",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the session id",
-                  "required":true
-               },
-               {
-                  "name":"blackbox",
-                  "in":"header",
-                  "type":"string",
-                  "description":"Contains hashed blackbox value for device fingerprinting",
-                  "required":true
-               },
-               {
-                  "name":"autoSaveToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the short lived auto save token",
-                  "required":true
-               },
-               {
-                  "name":"ssoToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the SSO token set by the OAM",
-                  "required":false
-               },
-               {
-                  "name":"application",
-                  "in":"body",
-                  "schema":{
-                     "$ref":"#/definitions/Basket"
-                  },
-                  "required":true
-               },
-               {
-                  "name":"__RequestVerificationToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The CSRF token that is set in the HTML and used in all ajax requests",
-                  "required":true
-               }
-            ],
-            "responses":{
-               "200":{
-                  "description":"The request was successful. The current state of the application is returned.",
-                  "schema":{
-                     "$ref":"#/definitions/State"
-                  }
-               },
-               "400":{
-                  "description":"The request failed due to incorrect data that the user sent.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "401":{
-                  "description":"The user is not logged in",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "403":{
-                  "description":"The user is logged in but does not have the correct role to do this call",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "500":{
-                  "description":"The request failed due to a server runtime error. It's not the user's fault.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               }
-            }
-         }
-      },
-      "/application/plan":{
-         "put":{
-            "tags":["application"],
-            "summary":"updates the plan (flexometer) step information",
-            "parameters":[
-               {
-                  "name":"sessionId",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the session id",
-                  "required":true
-               },
-               {
-                  "name":"blackbox",
-                  "in":"header",
-                  "type":"string",
-                  "description":"Contains hashed blackbox value for device fingerprinting",
-                  "required":true
-               },
-               {
-                  "name":"autoSaveToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the short lived auto save token",
-                  "required":true
-               },
-               {
-                  "name":"ssoToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the SSO token set by the OAM",
-                  "required":false
-               },
-               {
-                  "name":"application",
-                  "in":"body",
-                  "schema":{
-                     "$ref":"#/definitions/Plan"
-                  },
-                  "required":true
-               },
-               {
-                  "name":"__RequestVerificationToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The CSRF token that is set in the HTML and used in all ajax requests",
-                  "required":true
-               }
-            ],
-            "responses":{
-               "200":{
-                  "description":"The request was successful. The current state of the application is returned.",
-                  "schema":{
-                     "$ref":"#/definitions/State"
-                  }
-               },
-               "400":{
-                  "description":"The request failed due to incorrect data that the user sent.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "401":{
-                  "description":"The user is not logged in",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "403":{
-                  "description":"The user is logged in but does not have the correct role to do this call",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "500":{
-                  "description":"The request failed due to a server runtime error. It's not the user's fault.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               }
-            }
-         }
-      },
-      "/application/eligibility":{
-         "put":{
-            "tags":["application"],
-            "summary":"updates the eligibility step information",
-            "parameters":[
-               {
-                  "name":"sessionId",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the session id",
-                  "required":true
-               },
-               {
-                  "name":"blackbox",
-                  "in":"header",
-                  "type":"string",
-                  "description":"Contains hashed blackbox value for device fingerprinting",
-                  "required":true
-               },
-               {
-                  "name":"autoSaveToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the short lived auto save token",
-                  "required":true
-               },
-               {
-                  "name":"ssoToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the SSO token set by the OAM",
-                  "required":false
-               },
-               {
-                  "name":"application",
-                  "in":"body",
-                  "schema":{
-                     "$ref":"#/definitions/Eligibility"
-                  },
-                  "required":true
-               },
-               {
-                  "name":"__RequestVerificationToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The CSRF token that is set in the HTML and used in all ajax requests",
-                  "required":true
-               }
-            ],
-            "responses":{
-               "200":{
-                  "description":"The request was successful. The current state of the application is returned.",
-                  "schema":{
-                     "$ref":"#/definitions/State"
-                  }
-               },
-               "400":{
-                  "description":"The request failed due to incorrect data that the user sent.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "401":{
-                  "description":"The user is not logged in",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "403":{
-                  "description":"The user is logged in but does not have the correct role to do this call",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "500":{
-                  "description":"The request failed due to a server runtime error. It's not the user's fault.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               }
-            }
-         }
-      },
-      "/application/apply":{
-         "put":{
-            "tags":["application"],
-            "summary":"updates the apply step information",
-            "parameters":[
-               {
-                  "name":"sessionId",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the session id",
-                  "required":true
-               },
-               {
-                  "name":"blackbox",
-                  "in":"header",
-                  "type":"string",
-                  "description":"Contains hashed blackbox value for device fingerprinting",
-                  "required":true
-               },
-               {
-                  "name":"autoSaveToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the short lived auto save token",
-                  "required":true
-               },
-               {
-                  "name":"ssoToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the SSO token set by the OAM",
-                  "required":false
-               },
-               {
-                  "name":"application",
-                  "in":"body",
-                  "schema":{
-                     "$ref":"#/definitions/Apply"
-                  },
-                  "required":true
-               },
-               {
-                  "name":"__RequestVerificationToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The CSRF token that is set in the HTML and used in all ajax requests",
-                  "required":true
-               }
-            ],
-            "responses":{
-               "200":{
-                  "description":"The request was successful. The current state of the application is returned.",
-                  "schema":{
-                     "$ref":"#/definitions/State"
-                  }
-               },
-               "400":{
-                  "description":"The request failed due to incorrect data that the user sent.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "401":{
-                  "description":"The user is not logged in",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "403":{
-                  "description":"The user is logged in but does not have the correct role to do this call",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "500":{
-                  "description":"The request failed due to a server runtime error. It's not the user's fault.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               }
-            }
-         }
-      },
-      "/application/uru":{
-         "put":{
-            "tags":["application"],
-            "summary":"updates the uru step information",
-            "parameters":[
-               {
-                  "name":"sessionId",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the session id",
-                  "required":true
-               },
-               {
-                  "name":"blackbox",
-                  "in":"header",
-                  "type":"string",
-                  "description":"Contains hashed blackbox value for device fingerprinting",
-                  "required":true
-               },
-               {
-                  "name":"autoSaveToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the short lived auto save token",
-                  "required":true
-               },
-               {
-                  "name":"ssoToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the SSO token set by the OAM",
-                  "required":false
-               },
-               {
-                  "name":"application",
-                  "in":"body",
-                  "schema":{
-                     "$ref":"#/definitions/Uru"
-                  },
-                  "required":true
-               },
-               {
-                  "name":"__RequestVerificationToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The CSRF token that is set in the HTML and used in all ajax requests",
-                  "required":true
-               }
-            ],
-            "responses":{
-               "200":{
-                  "description":"The request was successful. The current state of the application is returned.",
-                  "schema":{
-                     "$ref":"#/definitions/State"
-                  }
-               },
-               "400":{
-                  "description":"The request failed due to incorrect data that the user sent.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "401":{
-                  "description":"The user is not logged in",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "403":{
-                  "description":"The user is logged in but does not have the correct role to do this call",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "500":{
-                  "description":"The request failed due to a server runtime error. It's not the user's fault.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               }
-            }
-         }
-      },
-      "/application/uruRepeatSpend":{
-         "put":{
-            "tags":["application"],
-            "summary":"Send the URU information for the repeat spend URU post review step. Differs from the /uru endpoint in that it does not include the proofOfId information",
-            "parameters":[
-               {
-                  "name":"sessionId",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the session id",
-                  "required":true
-               },
-               {
-                  "name":"blackbox",
-                  "in":"header",
-                  "type":"string",
-                  "description":"Contains hashed blackbox value for device fingerprinting",
-                  "required":true
-               },
-               {
-                  "name":"autoSaveToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the short lived auto save token",
-                  "required":true
-               },
-               {
-                  "name":"ssoToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the SSO token set by the OAM",
-                  "required":false
-               },
-               {
-                  "name":"application",
-                  "in":"body",
-                  "schema":{
-                     "$ref":"#/definitions/Card"
-                  },
-                  "required":true
-               },
-               {
-                  "name":"__RequestVerificationToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The CSRF token that is set in the HTML and used in all ajax requests",
-                  "required":true
-               }
-            ],
-            "responses":{
-               "200":{
-                  "description":"The request was successful. The current state of the application is returned.",
-                  "schema":{
-                     "$ref":"#/definitions/State"
-                  }
-               },
-               "400":{
-                  "description":"The request failed due to incorrect data that the user sent.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "401":{
-                  "description":"The user is not logged in",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "403":{
-                  "description":"The user is logged in but does not have the correct role to do this call",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "500":{
-                  "description":"The request failed due to a server runtime error. It's not the user's fault.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               }
-            }
-         }
-      },
-      "/application/review":{
-         "put":{
-            "tags":["application"],
-            "summary":"updates all the info in the review step in one go",
-            "parameters":[
-               {
-                  "name":"sessionId",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the session id",
-                  "required":true
-               },
-               {
-                  "name":"blackbox",
-                  "in":"header",
-                  "type":"string",
-                  "description":"Contains hashed blackbox value for device fingerprinting",
-                  "required":true
-               },
-               {
-                  "name":"autoSaveToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the short lived auto save token",
-                  "required":true
-               },
-               {
-                  "name":"ssoToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the SSO token set by the OAM",
-                  "required":false
-               },
-               {
-                  "name":"application",
-                  "in":"body",
-                  "schema":{
-                     "$ref":"#/definitions/Review"
-                  },
-                  "required":true
-               },
-               {
-                  "name":"__RequestVerificationToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The CSRF token that is set in the HTML and used in all ajax requests",
-                  "required":true
-               }
-            ],
-            "responses":{
-               "200":{
-                  "description":"The request was successful. The current state of the application is returned.",
-                  "schema":{
-                     "$ref":"#/definitions/State"
-                  }
-               },
-               "400":{
-                  "description":"The request failed due to incorrect data that the user sent.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "401":{
-                  "description":"The user is not logged in",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "403":{
-                  "description":"The user is logged in but does not have the correct role to do this call",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "500":{
-                  "description":"The request failed due to a server runtime error. It's not the user's fault.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               }
-            }
-         }
-      },
-      "/application/approved":{
-          "get":{
-            "tags":["application"],
-            "summary":"indicates that the user wants to download the contract as a PDF",
-            "parameters":[
-               {
-                  "name":"sessionId",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the session id",
-                  "required":true
-               }
-            ],
-            "responses":{
-              "200":{
-                  "description": "The request was successful. The PDF is returned."
-               }
-            }
-         },
-         "put":{
-            "tags":["application"],
-            "summary":"indicates that the user wants to start e-signing",
-            "parameters":[
-               {
-                  "name":"sessionId",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the session id",
-                  "required":true
-               },
-               {
-                  "name":"blackbox",
-                  "in":"header",
-                  "type":"string",
-                  "description":"Contains hashed blackbox value for device fingerprinting",
-                  "required":true
-               },
-               {
-                  "name":"autoSaveToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the short lived auto save token",
-                  "required":true
-               },
-               {
-                  "name":"ssoToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the SSO token set by the OAM",
-                  "required":false
-               },
-               {
-                  "name":"__RequestVerificationToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The CSRF token that is set in the HTML and used in all ajax requests",
-                  "required":true
-               }
-            ],
-            "responses":{
-               "200":{
-                  "description":"The request was successful. The current state of the application is returned.",
-                  "schema":{
-                     "$ref":"#/definitions/State"
-                  }
-               },
-               "400":{
-                  "description":"The request failed due to incorrect data that the user sent.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "401":{
-                  "description":"The user is not logged in",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "403":{
-                  "description":"The user is logged in but does not have the correct role to do this call",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "500":{
-                  "description":"The request failed due to a server runtime error. It's not the user's fault.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               }
-            }
-         }
-      },
-      "/application/sms":{
-         "post":{
-            "tags":["application"],
-            "summary":"sends the SMS token challenge to the server",
-            "parameters":[
-               {
-                  "name":"sessionId",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the session id",
-                  "required":true
-               },
-               {
-                  "name":"blackbox",
-                  "in":"header",
-                  "type":"string",
-                  "description":"Contains hashed blackbox value for device fingerprinting",
-                  "required":true
-               },
-               {
-                  "name":"autoSaveToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the short lived auto save token",
-                  "required":true
-               },
-               {
-                  "name":"ssoToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the SSO token set by the OAM",
-                  "required":false
-               },
-               {
-                  "name":"application",
-                  "in":"body",
-                  "schema":{
-                     "$ref":"#/definitions/Sms"
-                  },
-                  "required":true
-               },
-               {
-                  "name":"__RequestVerificationToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The CSRF token that is set in the HTML and used in all ajax requests",
-                  "required":true
-               }
-            ],
-            "responses":{
-               "200":{
-                  "description":"The request was successful. The current state of the application is returned.",
-                  "schema":{
-                     "$ref":"#/definitions/State"
-                  }
-               },
-               "400":{
-                  "description":"The request failed due to incorrect data that the user sent.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "401":{
-                  "description":"The user is not logged in",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "403":{
-                  "description":"The user is logged in but does not have the correct role to do this call",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "500":{
-                  "description":"The request failed due to a server runtime error. It's not the user's fault.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               }
-            }
-         }
-      },
-      "/application/securityCode":{
-         "post":{
-            "tags":["application"],
-            "summary":"sends the security code that the user had to fill in before he could continue the application",
-            "parameters":[
-               {
-                  "name":"sessionId",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the session id",
-                  "required":true
-               },
-               {
-                  "name":"blackbox",
-                  "in":"header",
-                  "type":"string",
-                  "description":"Contains hashed blackbox value for device fingerprinting",
-                  "required":true
-               },
-               {
-                  "name":"autoSaveToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the short lived auto save token",
-                  "required":true
-               },
-               {
-                  "name":"ssoToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the SSO token set by the OAM",
-                  "required":false
-               },
-               {
-                  "name":"application",
-                  "in":"body",
-                  "schema":{
-                     "$ref":"#/definitions/SecurityCode"
-                  },
-                  "required":true
-               },
-               {
-                  "name":"__RequestVerificationToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The CSRF token that is set in the HTML and used in all ajax requests",
-                  "required":true
-               }
-            ],
-            "responses":{
-               "200":{
-                  "description":"The request was successful. The current state of the application is returned.",
-                  "schema":{
-                     "$ref":"#/definitions/State"
-                  }
-               },
-               "400":{
-                  "description":"The request failed due to incorrect data that the user sent.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "401":{
-                  "description":"The user is not logged in",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "403":{
-                  "description":"The user is logged in but does not have the correct role to do this call",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "500":{
-                  "description":"The request failed due to a server runtime error. It's not the user's fault.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               }
-            }
-         }
-      },
-      "/application/customerSelect":{
-         "put":{
-            "tags":["application"],
-            "summary":"Sets the customer with the given id as the correctly recognized customer.",
-            "parameters":[
-               {
-                  "name":"sessionId",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the session id",
-                  "required":true
-               },
-               {
-                  "name":"blackbox",
-                  "in":"header",
-                  "type":"string",
-                  "description":"Contains hashed blackbox value for device fingerprinting",
-                  "required":true
-               },
-               {
-                  "name":"autoSaveToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the short lived auto save token",
-                  "required":true
-               },
-               {
-                  "name":"ssoToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the SSO token set by the OAM",
-                  "required":false
-               },
-               {
-                  "name":"matchId",
-                  "in":"body",
-                  "schema":{
-                     "type":"object",
-                     "required":[
-                        "id"
-                     ],
-                     "properties":{
-                        "id":{
-                           "type":"string",
-                           "description":"One of the ids as provided in the \"matchingCustomers\" of the /application/eligibility call"
-                        }
-                     }
-                  },
-                  "required":true
-               },
-               {
-                  "name":"__RequestVerificationToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The CSRF token that is set in the HTML and used in all ajax requests",
-                  "required":true
-               }
-            ],
-            "responses":{
-               "200":{
-                  "description":"The request was successful. The current state of the application is returned.",
-                  "schema":{
-                     "$ref":"#/definitions/State"
-                  }
-               },
-               "400":{
-                  "description":"The request failed due to incorrect data that the user sent.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "401":{
-                  "description":"The user is not logged in",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "403":{
-                  "description":"The user is logged in but does not have the correct role to do this call",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "500":{
-                  "description":"The request failed due to a server runtime error. It's not the user's fault.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               }
-            }
-         }
-      },
-      "/application/continueLater":{
-         "get":{
-            "tags":["application"],
-            "summary":"Retrieve save and return info out for the current application",
-            "parameters":[
-               {
-                  "name":"sessionId",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the session id",
-                  "required":true
-               },
-               {
-                  "name":"blackbox",
-                  "in":"header",
-                  "type":"string",
-                  "description":"Contains hashed blackbox value for device fingerprinting",
-                  "required":true
-               },
-               {
-                  "name":"autoSaveToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the short lived auto save token",
-                  "required":true
-               },
-               {
-                  "name":"ssoToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the SSO token set by the OAM",
-                  "required":false
-               },
-               {
-                  "name":"__RequestVerificationToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The CSRF token that is set in the HTML and used in all ajax requests",
-                  "required":true
-               }
-            ],
-            "responses":{
-               "200":{
-                  "description":"The request was successful. The current state of the application is returned including values for \"shortContinueLaterToken\"  and \"longContinueLaterTokenNeedsSecurityCode\".",
-                  "schema":{
-                     "$ref":"#/definitions/State"
-                  }
-               },
-               "400":{
-                  "description":"The request failed due to incorrect data that the user sent.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "401":{
-                  "description":"The user is not logged in",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "403":{
-                  "description":"The user is logged in but does not have the correct role to do this call",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "500":{
-                  "description":"The request failed due to a server runtime error. It's not the user's fault.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               }
-            }
-         },
-         "post":{
-            "tags":["application"],
-            "summary":"do everything that needs to be done to enable a S&R for the current application",
-            "parameters":[
-               {
-                  "name":"sessionId",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the session id",
-                  "required":true
-               },
-               {
-                  "name":"blackbox",
-                  "in":"header",
-                  "type":"string",
-                  "description":"Contains hashed blackbox value for device fingerprinting",
-                  "required":true
-               },
-               {
-                  "name":"autoSaveToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the short lived auto save token",
-                  "required":true
-               },
-               {
-                  "name":"ssoToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the SSO token set by the OAM",
-                  "required":false
-               },
-               {
-                  "name":"application",
-                  "in":"body",
-                  "schema":{
-                     "$ref":"#/definitions/ContinueLater"
-                  },
-                  "required":true
-               },
-               {
-                  "name":"__RequestVerificationToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The CSRF token that is set in the HTML and used in all ajax requests",
-                  "required":true
-               }
-            ],
-            "responses":{
-               "200":{
-                  "description":"The request was successful. The current state of the application is returned.",
-                  "schema":{
-                     "$ref":"#/definitions/State"
-                  }
-               },
-               "400":{
-                  "description":"The request failed due to incorrect data that the user sent.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "401":{
-                  "description":"The user is not logged in",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "403":{
-                  "description":"The user is logged in but does not have the correct role to do this call",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "500":{
-                  "description":"The request failed due to a server runtime error. It's not the user's fault.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               }
-            }
-         }
-      },
-      "/address":{
-         "post":{
-            "tags":["address"],
-            "summary":"returns a list of address partials or a full address that match the search query",
-            "parameters":[
-               {
-                  "name":"sessionId",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the session id",
-                  "required":true
-               },
-               {
-                  "name":"blackbox",
-                  "in":"header",
-                  "type":"string",
-                  "description":"Contains hashed blackbox value for device fingerprinting",
-                  "required":true
-               },
-               {
-                  "name":"autoSaveToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the short lived auto save token",
-                  "required":true
-               },
-               {
-                  "name":"ssoToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The cookie that contains the SSO token set by the OAM",
-                  "required":false
-               },
-               {
-                  "name":"query",
-                  "in":"body",
-                  "schema":{
-                     "$ref":"#/definitions/AddressSearch"
-                  },
-                  "required":true
-               },
-               {
-                  "name":"__RequestVerificationToken",
-                  "in":"header",
-                  "type":"string",
-                  "description":"The CSRF token that is set in the HTML and used in all ajax requests",
-                  "required":true
-               }
-            ],
-            "responses":{
-               "200":{
-                  "description":"The request was successful. A list of matching addresses is returned.",
-                  "schema":{
-                     "$ref":"#/definitions/AddressMatch"
-                  }
-               },
-               "400":{
-                  "description":"The request failed due to incorrect data that the user sent.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "401":{
-                  "description":"The user is not logged in",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "403":{
-                  "description":"The user is logged in but does not have the correct role to do this call",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               },
-               "500":{
-                  "description":"The request failed due to a server runtime error. It's not the user's fault.",
-                  "schema":{
-                     "$ref":"#/definitions/Error"
-                  }
-               }
-            }
-         }
-      }
-   },
-   "definitions":{
-      "State":{
-         "type":"object",
-         "description":"contains the current state of the application and dictates to the frontend what to do next. Steps that have not been done yet are left out.",
-         "required":[
-            "currentPage",
-            "isRepeatSpend",
-            "isClickAndCollect",
-            "authType",
-            "longContinueLaterTokenNeedsSecurityCode",
-            "isPaymentPending"
-         ],
-         "properties":{
-            "currentPage":{
-               "type":"string",
-               "description":"the page that should be shown next. \"redirectToUrl\" indicates that the browser must redirect to the URL in \"redirectUrl\"",
-               "enum":[
-                  "redirectToUrl",
-                  "plan",
-                  "eligibility",
-                  "apply",
-                  "uru",
-                  "review",
-                  "approved",
-                  "done",
-                  "referred",
-                  "declined",
-                  "uruRepeatSpend",
-                  "smsRepeatSpend",
-                  "smsCustomerRecognition",
-                  "declinedCustomerRecognition",
-                  "securityCode",
-                  "preApproved"
-               ]
-            },
-            "redirectUrl":{
-               "type":"string",
-               "description":"the URL that needs to be redirected to. Will only be used if \"currentPage\" is \"redirectToUrl\""
-            },
-            "isRepeatSpend":{
-               "type":"boolean"
-            },
-            "isPaymentPending":{
-               "type":"boolean"
-            },
-            "isClickAndCollect":{
-               "type":"boolean"
-            },
-            "authType":{
-               "type":"string",
-               "enum":[
-                  "none",
-                  "stage1Token",
-                  "stage2Token",
-                  "stage3Token",
-                  "OamSso",
-                  "OamLogin"
-               ],
-               "description":"The type of login that was used to load this application. The difference between OamSso and OamLogin is that the first login is the SSO based on the SSO cookie and the second is an explicit Login based on a username and password."
-            },
-            "shortContinueLaterToken":{
-               "type":"string",
-               "description":"The short save and return token that the consumer can later give to the store clerk to continue the application. Optional until /application/continueLater has been called."
-            },
-            "shortContinueLaterTokenAsBarcodeUrl": {
-               "type": "string",
-               "description": "A URI that returns an image containing a barcode which represents the shortContinueLaterToken. This is optional, but must have a value if shortContinueLaterToken also has a value."
-            },
-            "longContinueLaterTokenNeedsSecurityCode":{
-               "type":"boolean",
-               "description":"If true the continueLater POST call must provide a security code."
-            },
-            "matchingCustomers":{
-               "type":"array",
-               "items":{
-                  "$ref":"#/definitions/CustomerMatch"
-               }
-            },
-            "existingPlans":{
-               "$ref":"#/definitions/ExistingPlans"
-            },
-            "basket":{
-               "$ref":"#/definitions/Basket"
-            },
-            "plan":{
-               "$ref":"#/definitions/Plan"
-            },
-            "eligibility":{
-               "$ref":"#/definitions/Eligibility"
-            },
-            "apply":{
-               "$ref":"#/definitions/Apply"
-            },
-            "uru":{
-               "$ref":"#/definitions/Uru"
-            },
-            "marketingSettings":{
-               "$ref":"#/definitions/MarketingSettings"
-            },
-            "configuration":{
-               "$ref":"#/definitions/Configuration"
-            },
-            "creditProducts":{
-               "type":"array",
-               "items":{
-                  "$ref":"#/definitions/CreditProduct"
-               }
-            }
-         }
-      },
-      "Review":{
-         "type":"object",
-         "required":[
-            "eligibility",
-            "apply",
-            "uru",
-            "marketingSettings",
-            "deliveryOfGoods",
-            "plan"
-         ],
-         "properties":{
-            "eligibility":{
-               "$ref":"#/definitions/Eligibility"
-            },
-            "apply":{
-               "$ref":"#/definitions/Apply"
-            },
-            "uru":{
-               "$ref":"#/definitions/Uru"
-            },
-            "marketingSettings":{
-               "$ref":"#/definitions/MarketingSettings"
-            },
-            "deliveryOfGoods":{
-               "type":"string",
-               "enum":[
-                  "Home Delivery",
-                  "Instore Collection"
-               ]
-            },
-            "plan":{
-               "$ref":"#/definitions/Plan"
-            }
-         }
-      },
-      "MarketingSettings":{
-         "type":"object",
-         "required":[
-            "sms",
-            "email",
-            "thirdParty"
-         ],
-         "properties":{
-            "sms":{
-               "type":"boolean"
-            },
-            "email":{
-               "type":"boolean"
-            },
-            "thirdParty":{
-               "type":"boolean"
-            }
-         }
-      },
-      "Basket":{
-         "type":"object",
-         "required":[
-            "basketName"
-         ],
-         "properties":{
-            "basketName":{
-               "type":"string",
-               "maxLength":100
-            },
-            "products":{
-               "type":"array",
-               "items":{
-                  "$ref":"#/definitions/Product"
-               }
-            }
-         }
-      },
-      "Product":{
-         "type":"object",
-         "required":[
-            "name",
-            "quantity",
-            "price"
-         ],
-         "properties":{
-            "name":{
-               "type":"string",
-               "maxLength":100
-            },
-            "quantity":{
-               "type":"integer",
-               "format":"int32"
-            },
-            "price":{
-               "type":"integer",
-               "format":"int32"
-            }
-         }
-      },
-      "Plan":{
-         "type":"object",
-         "required":[
-            "totalCashPrice",
-            "months",
-            "deferredPayment",
-            "deposit",
-            "creditLimit",
-            "creditProductCode"
-         ],
-         "properties":{
-            "totalCashPrice":{
-               "type":"integer",
-               "format":"int32"
-            },
-            "months":{
-               "type":"integer",
-               "format":"int32"
-            },
-            "deferredPayment":{
-               "type":"boolean"
-            },
-            "deposit":{
-               "type":"integer",
-               "format":"int32"
-            },
-            "creditLimit":{
-               "type":"integer",
-               "format":"int32",
-               "description" : "this field is required in the case of repeat spend and after the review step in the case of a new application. Otherwise it is null"
-            },
-            "creditProductCode":{
-               "type":"string",
-               "description":"The unique product code to identify the product."
-            },
-            "monthlyPayment":{
-               "type":"integer",
-               "format":"int32",
-               "description":"Monthly installment amount"
-            },
-            "totalCredit":{
-               "type":"integer",
-               "format":"int32",
-               "description":"The total amount of credit"
-            },
-            "planEndDate":{
-               "type":"string",
-               "format":"date",
-               "description":"A formatted string containing the plan end date."
-            },
-            "monthlyRate":{
-                "type":"number",
-                "format":"float",
-                "description":"The monthly rate (calculated based on the APR) in floating point notation. For example 0.015238936"
-            }
-         }
-      },
-      "Eligibility":{
-         "type":"object",
-         "required":[
-            "basicPersonalDetails",
-            "residentialStatus",
-            "currentAddress",
-            "basicEmployment"
-         ],
-         "properties":{
-            "basicPersonalDetails":{
-               "$ref":"#/definitions/BasicPersonalDetails"
-            },
-            "residentialStatus":{
-               "type":"string",
-               "enum":[
-                  "Owner",
-                  "Tenant Furnished",
-                  "Tenant Unfurnished",
-                  "Living With Parent"
-               ]
-            },
-            "currentAddress":{
-               "$ref":"#/definitions/PrivateAddress"
-            },
-            "firstPreviousAddress":{
-               "$ref":"#/definitions/PrivateAddress"
-            },
-            "secondPreviousAddress":{
-               "$ref":"#/definitions/PrivateAddress"
-            },
-            "basicEmployment":{
-               "$ref":"#/definitions/BasicEmployment"
-            }
-         }
-      },
-      "Address":{
-         "type":"object",
-         "required":[
-            "postCode",
-            "streetName",
-            "district",
-            "town",
-            "county",
-            "isManualEntry"
-         ],
-         "description":"Contains a British address. Either houseName or houseNumber is required",
-         "properties":{
-            "houseName":{
-               "type":"string",
-               "maxLength":100
-            },
-            "houseNumber":{
-               "type":"string",
-               "example":"32",
-               "maxLength":10
-            },
-            "postCode":{
-               "type":"string",
-               "example":"GU25 4EZ",
-               "maxLength":8
-            },
-            "streetName":{
-               "type":"string",
-               "example":"Cabrera Avenue",
-               "maxLength":28
-            },
-            "district":{
-               "type":"string",
-               "maxLength":28
-            },
-            "town":{
-               "type":"string",
-               "example":"Virginia Water",
-               "maxLength":20
-            },
-            "county":{
-               "type":"string",
-               "example":"Surrey",
-               "maxLength":28
-            },
-            "isManualEntry":{
-               "type":"boolean"
-            }
-         }
-      },
-      "PrivateAddress":{
-         "type":"object",
-         "required":[
-            "postCode",
-            "streetName",
-            "district",
-            "town",
-            "county",
-            "timeAtAddress",
-            "isManualEntry"
-         ],
-         "description":"Contains a British address. Either houseName or houseNumber is required",
-         "properties":{
-            "houseName":{
-               "type":"string",
-               "maxLength":100
-            },
-            "houseNumber":{
-               "type":"string",
-               "maxLength":10
-            },
-            "postCode":{
-               "type":"string",
-               "maxLength":8
-            },
-            "streetName":{
-               "type":"string",
-               "maxLength":28
-            },
-            "district":{
-               "type":"string",
-               "maxLength":28
-            },
-            "town":{
-               "type":"string",
-               "maxLength":20
-            },
-            "county":{
-               "type":"string",
-               "maxLength":28
-            },
-            "timeAtAddress":{
-               "type":"integer",
-               "format":"int32"
-            },
-            "isManualEntry":{
-               "type":"boolean"
-            }
-         }
-      },
-      "CustomerMatch":{
-         "type":"object",
-         "required":[
-            "id",
-            "fullName",
-            "dateOfBirth",
-            "address"
-         ],
-         "properties":{
-            "id":{
-               "type":"string",
-               "description":"unique identifier for this match."
-            },
-            "fullName":{
-               "type":"string",
-               "description":"A formatted string containing the full name. It will be rendered as is."
-            },
-            "dateOfBirth":{
-               "type":"string",
-               "description":"A formatted string containing the birthdate. It will be rendered as is."
-            },
-            "address":{
-               "type":"string",
-               "description":"A formatted string containing the full address. It will be rendered as is."
-            }
-         }
-      },
-      "AddressSearch":{
-         "type":"object",
-         "required":[
-            "addressLines",
-            "postCode"
-         ],
-         "properties":{
-            "addressLines":{
-               "type":"array",
-               "items":{
-                  "type":"string",
-                  "description":"Address Line value taken from index in comma separated addressSummary string"
-               },
-               "description":"Array Of Address line values, excluding postcode"
-            },
-            "postCode":{
-               "type":"string"
-            }
-         }
-      },
-      "AddressMatch":{
-         "type":"object",
-         "required":[
-            "hasAddressMatch",
-            "address",
-            "partialAddresses"
-         ],
-         "properties":{
-            "hasAddressMatch":{
-               "type":"boolean"
-            },
-            "address":{
-               "$ref":"#/definitions/Address"
-            },
-            "partialAddresses":{
-               "type":"array",
-               "items":{
-                  "type":"string",
-                  "description":"comma separated string (Last comma split item is Postcode)"
-               },
-               "description":"Array Of Address Summary"
-            }
-         }
-      },
-      "BasicPersonalDetails":{
-         "type":"object",
-         "required":[
-            "title",
-            "forename",
-            "surname",
-            "dateOfBirth"
-         ],
-         "properties":{
-            "title":{
-               "type":"string",
-               "enum":[
-                  "Mr",
-                  "Mrs",
-                  "Miss",
-                  "Ms",
-                  "Dr",
-                  "Rev",
-                  "Other"
-               ]
-            },
-            "forename":{
-               "type":"string",
-               "maxLength":25
-            },
-            "surname":{
-               "type":"string",
-               "maxLength":30
-            },
-            "dateOfBirth":{
-               "type":"string",
-               "format":"date"
-            }
-         }
-      },
-      "BasicEmployment":{
-         "type":"object",
-         "required":[
-            "employmentStatus",
-            "grossAnnualHouseholdIncome"
-         ],
-         "properties":{
-            "employmentStatus":{
-               "type":"string",
-               "enum":[
-                  "Full Time",
-                  "Part Time",
-                  "Self Employed",
-                  "Retired",
-                  "Home Maker",
-                  "Disability Allowance",
-                  "Student",
-                  "Unemployed"
-               ]
-            },
-            "grossAnnualHouseholdIncome":{
-               "type":"integer",
-               "format":"int32"
-            }
-         }
-      },
-      "Apply":{
-         "type":"object",
-         "required":[
-            "extendedPersonalDetails",
-            "bank",
-            "extendedEmployment"
-         ],
-         "properties":{
-            "extendedPersonalDetails":{
-               "$ref":"#/definitions/ExtendedPersonalDetails"
-            },
-            "bank":{
-               "$ref":"#/definitions/Bank"
-            },
-            "extendedEmployment":{
-               "$ref":"#/definitions/ExtendedEmployment"
-            }
-         }
-      },
-      "ExtendedPersonalDetails":{
-         "type":"object",
-         "required":[
-            "emailAddress",
-            "telephone",
-            "alternativeTelephone",
-            "maritialStatus",
-            "numberOfDependants"
-         ],
-         "properties":{
-            "emailAddress":{
-               "type":"string",
-               "maxLength":60
-            },
-            "telephone":{
-               "type":"string",
-               "maxLength":13
-            },
-            "alternativeTelephone":{
-               "type":"string",
-               "maxLength":13
-            },
-            "maritialStatus":{
-               "type":"string",
-               "enum":[
-                  "Married / Civil partnership",
-                  "Single",
-                  "Widowed",
-                  "Divorced"
-               ]
-            },
-            "numberOfDependants":{
-               "type":"integer",
-               "format":"int32"
-            }
-         }
-      },
-      "Bank":{
-         "type":"object",
-         "required":[
-            "accountNumber",
-            "sortCode",
-            "yearsAtBank"
-         ],
-         "properties":{
-            "accountNumber":{
-               "type":"string",
-               "maxLength":8
-            },
-            "sortCode":{
-               "type":"string",
-               "maxLength":8
-            },
-            "yearsAtBank":{
-               "type":"integer",
-               "format":"int32"
-            }
-         }
-      },
-      "ExtendedEmployment":{
-         "type":"object",
-         "required":[
-            "occupation",
-            "employerName",
-            "employerAddress",
-            "employedYears"
-         ],
-         "properties":{
-            "occupation":{
-               "type":"string",
-               "enum":[
-                  "Agricultural",
-                  "Civil Service",
-                  "Clergy",
-                  "Emergency/Medical Services",
-                  "Financial/Insurance/Banking",
-                  "Legal",
-                  "Manual/Factory Worker",
-                  "Military",
-                  "Office Worker",
-                  "Other Professional/Managerial",
-                  "Retail",
-                  "Skilled Tradesmen",
-                  "Temporary Staff"
-               ]
-            },
-            "employerName":{
-               "type":"string",
-               "maxLength":60
-            },
-            "employerAddress":{
-               "$ref":"#/definitions/Address"
-            },
-            "employedYears":{
-               "type":"integer",
-               "format":"int32"
-            },
-            "personalIncome":{
-               "type":"integer",
-               "format":"int32"
-            }
-         }
-      },
-      "Uru":{
-         "type":"object",
-         "required":[
-            "card",
-            "proofOfIdentity"
-         ],
-         "properties":{
-            "card":{
-               "$ref":"#/definitions/Card"
-            },
-            "proofOfIdentity":{
-               "$ref":"#/definitions/ProofOfIdentity"
-            }
-         }
-      },
-      "ExistingPlans":{
-         "type":"object",
-         "required":[
-            "totalBalance",
-            "balanceClearDate",
-            "startDateOfChart",
-            "graphData"
-         ],
-         "properties":{
-            "totalBalance":{
-               "type":"integer",
-               "format":"int32",
-               "description":"The current outstanding debt when taking all plans into account."
-            },
-            "balanceClearDate":{
-               "type":"string",
-               "format":"date"
-            },
-            "startDateOfChart":{
-               "type":"string",
-               "format":"date"
-            },
-            "graphData":{
-               "type":"array",
-               "items":{
-                  "$ref":"#/definitions/ExistingPlanGraphData"
-               }
-            }
-         }
-      },
-      "ExistingPlanGraphData":{
-         "type":"object",
-         "required":[
-            "customTitle",
-            "monthlyPayments",
-            "futureBalance"
-         ],
-         "properties":{
-            "customTitle":{
-               "type":"string"
-            },
-            "monthlyPayments":{
-               "type":"array",
-               "items":{
-                  "type":"integer",
-                  "format":"int32"
-               }
-            },
-            "futureBalance":{
-               "type":"array",
-               "items":{
-                  "type":"integer",
-                  "format":"int32"
-               }
-            }
-         }
-      },
-      "Card":{
-         "type":"object",
-         "required":[
-            "cardholderName",
-            "cardType",
-            "cardNumber",
-            "expiryDate",
-            "cardSecurityCode"
-         ],
-         "properties":{
-            "cardholderName":{
-               "type":"string",
-               "maxLength":30
-            },
-            "cardType":{
-               "type":"string",
-               "enum":[
-                  "Visa Credit",
-                  "Visa Debit",
-                  "MasterCard",
-                  "Solo",
-                  "Visa Electron",
-                  "MasterCard Debit",
-                  "American Express",
-                  "Maestro"
-               ]
-            },
-            "cardNumber":{
-               "type":"string",
-               "maxLength":19
-            },
-            "expiryDate":{
-               "type":"string",
-               "maxLength":7
-            },
-            "cardSecurityCode":{
-               "type":"string",
-               "maxLength":5
-            }
-         }
-      },
-      "ProofOfIdentity":{
-         "type":"object",
-         "required":[
-            "category"
-         ],
-         "properties":{
-            "category":{
-               "type":"string",
-               "enum":[
-                  "A",
-                  "B",
-                  "C",
-                  "D",
-                  "H",
-                  "I",
-                  "M",
-                  "P",
-                  "R",
-                  "TV",
-                  "U"
-               ]
-            }
-         }
-      },
-      "ContinueLater":{
-         "type":"object",
-         "description":"Either emailAddress or telehone is required.",
-         "properties":{
-            "emailAddress":{
-               "type":"string",
-               "maxLength":60
-            },
-            "telephone":{
-               "type":"string",
-               "maxLength":13
-            },
-            "code":{
-               "type":"string",
-               "maxLength":6
-            }
-         }
-      },
-      "Sms":{
-         "type":"object",
-         "required":[
-            "token"
-         ],
-         "properties":{
-            "token":{
-               "type":"string",
-               "maxLength":60,
-               "example":"hello, world!"
-            }
-         }
-      },
-      "SecurityCode":{
-         "type":"object",
-         "required":[
-            "code"
-         ],
-         "properties":{
-            "code":{
-               "type":"string",
-               "maxLength":6
-            }
-         }
-      },
-      "Configuration":{
-         "type":"object",
-         "description":"Contains all the configuration settings for apply. Will only be used on apply startup, changing these settings halfway through apply will not have any effect.",
-         "properties":{
-            "creditLimitNewPlan":{
-               "$ref":"#/definitions/Range",
-               "description":"The minimum and maximum value for the requested credit in cents in the case of a new application. Excluding the deposit."
-            },
-            "creditLimitRepeatSpend":{
-               "$ref":"#/definitions/Range",
-               "description":"Theminimum and maximum value for the requested credit in cents in the case of a repeat spend. Excluding the deposit. The maximum is equal to credit limit - outstanding credit."
-            }
-         }
-      },
-      "CreditProduct":{
-         "type":"object",
-         "description":"Contains all the configuration settings for apply. Will only be used on apply startup, changing these settings halfway through apply will not have any effect.",
-         "properties":{
-            "deferredPaymentProduct":{
-               "type":"boolean",
-               "description":"Indication whether the product is a deferred payment product."
-            },
-            "apr":{
-               "type":"integer",
-               "format":"int32",
-               "description":"The APR precentage x 100, so the value 1990 means 19.90%"
-            },
-            "maxTerm":{
-               "type":"integer",
-               "format":"int32",
-               "description":"The maximum term for the product. It will be used for the slider range."
-            },
-            "minTerm":{
-               "type":"integer",
-               "format":"int32",
-               "description":"The minimum term for the product. It will be used for the slider range."
-            },
-            "offerMonths":{
-               "type":"integer",
-               "format":"int32",
-               "description":"The number of months which will be used in case of deferred payment. One product should have 0 value."
-            },
-            "creditProductCode":{
-               "type":"string",
-               "description":"The unique product code to identify the product."
-            },
-            "monthlyRate":{
-                "type":"number",
-                "format":"float",
-                "description":"The monthly rate (calculated based on the APR) in floating point notation. For example 0.015238936"
-            },
-            "minDepositRate":{
-                "type":"number",
-                "format":"float",
-                "description":"The minimum required deposit expressed as a rate calculated based on the totalCashPrice in floating point notation. For example 10.5 means a required minimum deposit of 10.5% of the totalCashPrice."
-            }
-         }
-      },
-      "Range":{
-         "type":"object",
-         "description":"Contains a range definition",
-         "properties":{
-            "min":{
-               "type":"integer",
-               "format":"int32"
-            },
-            "max":{
-               "type":"integer",
-               "format":"int32"
-            }
-         }
-      },
-      "Error":{
-         "type":"object",
-         "required":[
-            "errors"
-         ],
-         "properties":{
-            "errorResponseId":{
-               "type":"string",
-               "maxLength":100,
-               "description":"An optional unique id (UUID) which can be used for finding exceptions back in the log file on the server",
-               "example":"de305d54-75b4-431b-adb2-eb6b9e546013"
-            },
-            "errors":{
-               "type":"array",
-               "items":{
-                  "$ref":"#/definitions/ErrorItem"
-               },
-               "description":"List of all the errors that occurred"
-            }
-         }
-      },
-      "ErrorItem":{
-         "type":"object",
-         "required":[
-            "code",
-            "message"
-         ],
-         "properties":{
-            "code":{
-               "type":"string",
-               "description":"A unique code that identifies this error. It can also be used as the translation key in a language pack.",
-               "example":"javax.validation.constraints.Size"
-            },
-            "message":{
-               "type":"string",
-               "description":"A human readable message for debugging. Ideally not meant for presentation to the end user.",
-               "example":"invalid length"
-            },
-            "property":{
-               "type":"string",
-               "description":"The name of a property that the client understands and can use to pinpoint the origin of the error. For instance a request parameter or JSON field that was provided in the request.",
-               "example":"accounts[0].accountHolder.name"
-            },
-            "invalidValue":{
-               "type":"string",
-               "description":"The value of the property that resulted in this error. Most likely a String and it's up to the application to format this as needed. Meant for debugging purposes only as the original values is still available in the client that made the request.",
-               "example":67
-            },
-            "attributes":{
-               "type":"object",
-               "description":"Key/value pairs that give additional information of the error that occurred. It can be used to fill in the placeholders of the translation in the language pack.",
-               "example":"{ 'max': 1, 'min': 2}, {'name': 'koen'}, etc..."
-            },
-            "exception":{
-               "$ref":"#/definitions/ErrorException"
-            }
-         }
-      },
-      "ErrorException":{
-         "type":"object",
-         "description":"The server side technical exception details meant for debugging, not for presentation to the user. It should only be include in the dev environment",
-         "required":[
-            "category",
-            "type",
-            "message",
-            "stackTrace"
-         ],
-         "properties":{
-            "category":{
-               "type":"string",
-               "description":"See http://docs.oracle.com/javaee/6/tutorial/doc/bnbpj.html",
-               "enum":[
-                  "system",
-                  "application"
-   ]
-            },
-            "type":{
-               "type":"string",
-               "description":"The exception type of the server exception",
-               "example":"javax.validation.ConstraintViolationException"
-            },
-            "message":{
-               "type":"string",
-               "description":"The server exception message",
-               "example":"ServiceLink PLC transaction to acquire APR returned unsuccessful result code"
-            },
-            "stackTrace":{
-               "type":"string",
-               "description":"The server stack trace.",
-               "example":"Exception in thread \"main\" java.lang.NullPointerException \\n at com.example.myproject.Book.getTitle(Book.java:16) \\n at com.example.myproject.Author.getBookTitles(Author.java:25) \\n at com.example.myproject.Bootstrap.main(Bootstrap.java:14)"
-            }
-         }
-      }
-   }
-}
-
-}
+swagger: '2.0'
+info:
+  title: Qander API
+  description: Qander API
+  version: "1.0.0"
+host: apigee.qander.nl
+schemes:
+  - https
+basePath: /v1
+consumes:
+  - application/json
+produces:
+  - application/json
+securityDefinitions:
+  apiKey:
+    type: apiKey
+    in: header
+    name: Authorization
+paths:
+  /merchants/{merchantId}/calculators/services:
+    get:
+      description: |
+        Get a list of all calculator services for the merchant.
+      security:
+        - apiKey: []
+      parameters:
+        - $ref: '#/parameters/merchantId'
+      responses:
+        200:
+          description: Successful response.
+          schema:
+            title: ArrayOfServiceIds
+            type: array
+            items:
+              type: string
+        400: 
+          description: Error response
+          schema:
+            $ref: '#/definitions/errorResponse'  
+  /merchants/{merchantId}/calculators/services/{serviceId}:
+    get:
+      description: |
+        Get the details of a calculator service.
+      security:
+        - apiKey: []
+      parameters:
+        - $ref: '#/parameters/merchantId'
+        - $ref: '#/parameters/serviceId'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/serviceConfiguration'
+        400: 
+          description: Error response
+          schema:
+            $ref: '#/definitions/errorResponse'          
+  /merchants/{merchantId}/calculators/services/{serviceId}/calculations:
+    post:
+      description: |
+        Performs calculations for a service.
+        Only returns results for valid calculations.
+        For example, it is possible that the amount is so high that the lower number of terms values would result in a monthly payment which is too high.
+      security:
+        - apiKey: []
+      parameters:
+        - $ref: '#/parameters/merchantId'
+        - $ref: '#/parameters/serviceId'
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/serviceCalculationsInput'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/serviceCalculationsOutput'      
+        400: 
+          description: Error response
+          schema:
+            $ref: '#/definitions/errorResponse'                      
+  /merchants/{merchantId}/calculators/capacity/calculations:
+    post:
+      description: |
+        Perform calculations to check how much can be borrowed.
+      security:
+        - apiKey: []
+      parameters:
+        - $ref: '#/parameters/merchantId'
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/capacityCalculationsInput'
+      responses:
+        200:
+          description: Successful response              
+          schema:
+            $ref: '#/definitions/capacityCalculationsOutput'
+        400: 
+          description: Error response
+          schema:
+            $ref: '#/definitions/errorResponse'
+definitions:             
+  serviceConfiguration:
+    title: ServiceConfiguration
+    type: object
+    properties:
+      minAmount: 
+        type: object
+        description: Minimum loan amount.
+        allOf:
+          - $ref: '#/definitions/moneyAmount'
+      maxAmount: 
+        type: object
+        description: Maximum loan amount.
+        allOf:
+          - $ref: '#/definitions/moneyAmount'
+      initializationAmount: 
+        type: object
+        description: The advised initialization amount for sliders etc.
+        allOf:
+          - $ref: '#/definitions/moneyAmount'        
+      amountGranularity: 
+        type: object
+        description: The advised granularity for the loan amount to use for sliders etc. This value is not enforced.
+        allOf:
+          - $ref: '#/definitions/moneyAmount'
+      possibleNrOfTerms:
+        type: array
+        description: The number of terms values which can be used for this service. Note that not all number of terms values can be used in combination with all values.
+        items:
+          type: integer        
+  serviceCalculationsInput:        
+    title: ServiceCalculationsInput
+    type: object
+    properties:
+      amount:
+        type: object
+        description: The loan amount.
+        allOf:
+          - $ref: '#/definitions/moneyAmount'
+      nrOfTermsToCalculate:
+        type: array
+        description: The number of terms to perform calculations for. If this value is left empty a calculation will be performed for all possible terms for this service.
+        items:
+          type: integer
+  serviceCalculationsOutput:        
+    title: ArrayOfServiceCalculationOutput
+    type: array
+    description: The results of the calculations. The order of the calculation results will correspond to the order of the nrOfTermsToCalculate input, so if the first nrOfTerms of the input was 24 the first calculation result will be for 24 terms. If no nrOfTermsToCalculate input was provided the calculation results will be ordered by nrOfTerms descending.
+    items:
+      $ref: '#/definitions/serviceCalculationOutputOrError'                   
+  serviceCalculationOutputOrError:
+    title: ServiceCalculationOutputOrError
+    description: Contains the result of the calculation or an error, never both.
+    type: object
+    properties:
+      nrOfTerms:
+        type: integer
+      calculationError:
+        type: object
+        description: The reason why the calculation failed.
+        allOf:
+          - $ref: '#/definitions/error'
+      calculationResult:
+        type: object
+        description: The result of the calculation.
+        allOf:
+          - $ref: '#/definitions/serviceCalculationOutput'
+  serviceCalculationOutput:
+    title: ServiceCalculationOutput
+    type: object
+    properties:
+      serviceId:
+        type: string
+      loanAmount:
+        type: object
+        description: Loan amount that the calculation was based on.
+        allOf:
+          - $ref: '#/definitions/moneyAmount'        
+      nrOfTerms:
+        type: integer
+        description: The number of terms used as input for the calculation. This value can be used to correlate the result with the input. totalTerms is the actual calculated number of terms and might differ slightly from nrOfTerms. 
+      monthlyPaymentAmount:
+        type: object
+        description: Amount to be paid per month.
+        allOf:
+          - $ref: '#/definitions/moneyAmount'  
+      annualPercentRate:
+        type: object
+        description: APR (interest per year).
+        allOf:
+          - $ref: '#/definitions/percentage'  
+      monthlyPercentRate:
+        type: object
+        description: MPR (interest per month).
+        allOf:
+          - $ref: '#/definitions/percentage'  
+      totalAmount:
+        type: object
+        description: todo
+        allOf:
+          - $ref: '#/definitions/moneyAmount'  
+      totalCreditFee:
+        type: object
+        description: Total amount of interest and administration cost to be paid by the customer.
+        allOf:
+          - $ref: '#/definitions/moneyAmount'  
+      totalLoanCost:
+        type: object
+        description: Total amount to be paid by the customer made up of principal (loan) amount, administration cost and interest.
+        allOf:
+          - $ref: '#/definitions/moneyAmount'  
+      yearlyCostPercentage:  
+        type: object
+        description: Total cost expressed as a yearly percentage of the total credit amount. This indicator allows customers to compare offers.
+        allOf:
+          - $ref: '#/definitions/percentage'  
+      totalTerms:
+        type: integer    
+        description: Number of installments (in months) to repay the loan.
+  capacityCalculationInput:
+    title: CapacityCalculationInput
+    description: Input for a single capacity calculation.
+    type: object
+    properties:
+      livingTogether: 
+        type: boolean
+        description: Living alone or together with other.
+      nrOfChildren: 
+        description: Number of children under 18 living at home.
+        type: integer
+      netIncome: 
+        type: object
+        description: Net base income per month without travel expenses and other additions. Cannot be used in combination with grossIncome.
+        allOf:
+          - $ref: '#/definitions/moneyAmount'
+      netIncome13thMonth: 
+        type: boolean
+        description: Net bonus (13th month).
+      grossIncome: 
+        type: object
+        description: Gross income per month as per salary slip. Cannot be used in combination with netIncome.
+        allOf:
+          - $ref: '#/definitions/moneyAmount'
+      rentMortgage: 
+        type: object
+        description: Amount paid in rent or mortgage per month (gross).
+        allOf:
+          - $ref: '#/definitions/moneyAmount'
+      netIncomePartner: 
+        type: object
+        description: Net income per month partner without travel expenses and other additions.
+        allOf:
+          - $ref: '#/definitions/moneyAmount'
+      netIncome13thMonthPartner: 
+        type: boolean
+        description: Net bonus (13th month) of partner.
+      grossIncomePartner: 
+        type: object
+        description: Gross income per month partner as per salary slip.
+        allOf:
+          - $ref: '#/definitions/moneyAmount'
+      otherExpenditures:
+        type: object
+        description: Other monthly expenses.
+        allOf:
+          - $ref: '#/definitions/moneyAmount'
+      alimonyToReceive:
+        type: object
+        description: Alimony received per month.
+        allOf:
+          - $ref: '#/definitions/moneyAmount'
+      alimonyToPay:
+        type: object
+        description: Alimony paid per month.
+        allOf:
+          - $ref: '#/definitions/moneyAmount'
+  capacityCalculationsInput:        
+    title: ArrayOfCapacityCalculationInput
+    type: array
+    items:
+      $ref: '#/definitions/capacityCalculationInput'        
+  capacityCalculationOutput:
+    title: CapacityCalculationResponse
+    description: Output for a single capacity calculation.
+    type: object
+    properties:
+      netIncome: 
+        type: object
+        description: Calculated net income per month.
+        allOf:
+          - $ref: '#/definitions/moneyAmount'
+      principalNorm: 
+        type: object
+        description: 'basisnorm'
+        allOf:
+          - $ref: '#/definitions/moneyAmount'
+      standardOfLiving: 
+        type: object
+        description: 'levensstandaard'
+        allOf:
+          - $ref: '#/definitions/moneyAmount'
+      maxAllowedLoanAmount: 
+        type: object
+        description: Maximum amount that the customer can borrow.
+        allOf:
+          - $ref: '#/definitions/moneyAmount'
+  capacityCalculationsOutput:        
+    title: ArrayOfCapacityCalculationOutput
+    type: array
+    items:
+      $ref: '#/definitions/capacityCalculationOutput'        
+  moneyAmount:
+    title: AmountOfMoney
+    type: object
+    properties:
+      amountInSmallestUnit:
+        description: The amount represented in the smallest unit. For example, a amountInSmallestUnit of 1250 and a currencyCode of EUR represent 1250 eurocents or 12 euro. And a amountInSmallestUnit of 1250 and a currencyCode of JPY represent 1250     Japanese yen.
+        type: integer
+      currencyCode: 
+        description: A ISO 4217 currency code consisting of three characters.
+        type: string
+  percentage:
+    title: Percentage
+    type: object
+    properties:
+      value:
+        description: The percentage value. This includes the decimals. For example, if the value is 1201 and decimals is 2 then this object represents 12.01%. This number is exposed as a whole number because that is easier for calculations and custom formatting rules. 
+        type: integer
+      decimals:
+        description: The number of decimals in the percentage value.
+        type: integer      
+  errorResponse:
+    title: ErrorResponse
+    description: Error response
+    type: object
+    properties:
+      errorResponseId:
+          description: An unique error ID which can be used by Qander to locate related error information.
+          type: string
+      errors:
+        title: ArrayOfErrors
+        description: A list of errors
+        type: array      
+        items:
+          type: array
+          items:
+             $ref: '#/definitions/error'
+  error:
+    title: Error
+    type: object
+    properties:
+      code:
+        description: An error code. This code will not change and can be used to base UI logic on.
+        type: string
+      message:
+        description: A description of the error. May contain information which can be useful for troubleshooting. This message is not intended to be displayed to the end user.
+        type: string
+parameters:
+  merchantId:
+    name: merchantId
+    in: path
+    description: Merchant ID
+    required: true
+    type: string
+    default: "bob"
+  serviceId:
+    name: serviceId
+    in: path
+    description: Service ID
+    required: true
+    type: string      
