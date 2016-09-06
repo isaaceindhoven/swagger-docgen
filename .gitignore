@@ -40,4 +40,5 @@ hs_err_pid*
 /build/
 /work/output/
 /work/input/
+/work/input-disabled/
 /work/temp/
