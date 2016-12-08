@@ -90,13 +90,6 @@ public class Main {
             Pattern headerPattern = Pattern.compile("^= (.*)$", Pattern.MULTILINE);
             Matcher m = headerPattern.matcher(adoc);
 
-
-            System.out.println("m.matches() = " + m.matches());
-            System.out.println("m.pattern() = " + m.pattern());
-            System.out.println("m = " + m);
-            System.out.println("adoc.substring(0,50) = " + adoc.substring(0, 50));
-
-
             // RegEx does not properly match document title
             // @see https://github.com/cascer1/swagger-docgen/issues/4
             if (m.matches()) {
@@ -105,7 +98,11 @@ public class Main {
                 adoc = m.replaceFirst(replacement);
             }
 
-//            System.out.println("adoc = " + adoc);
+
+            System.out.println("m.matches() = " + m.matches());
+            System.out.println("m.pattern() = " + m.pattern());
+            System.out.println("m = " + m);
+            System.out.println("adoc.substring(0,50) = " + adoc.substring(0, 50));
 
             Asciidoctor asciidoctor = create();
 
