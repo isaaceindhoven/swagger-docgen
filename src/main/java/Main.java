@@ -97,6 +97,8 @@ public class Main {
             System.out.println("adoc.substring(0,50) = " + adoc.substring(0, 50));
 
 
+            // RegEx does not properly match document title
+            // @see https://github.com/cascer1/swagger-docgen/issues/4
             if (m.matches()) {
                 String replacement = String.format("%s%s", m.group(0), additional);
 
