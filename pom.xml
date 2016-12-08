@@ -13,69 +13,6 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.asciidoctor</groupId>
-                <artifactId>asciidoctor-maven-plugin</artifactId>
-                <version>1.5.3</version>
-                <configuration>
-                    <sourceDirectory>work/temp</sourceDirectory>
-                    <outputDirectory>work/output</outputDirectory>
-                    <sourceHighlighter>coderay</sourceHighlighter>
-
-                    <backend>pdf</backend>
-                    <doctype>book</doctype>
-                    <attributes>
-                        <pdf-stylesdir>${project.basedir}/themes</pdf-stylesdir>
-                        <pdf-style>apidocs</pdf-style>
-                        <pdf-fontsdir>${project.basedir}/themes/fonts</pdf-fontsdir>
-                    </attributes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>convert-pdf</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>process-asciidoc</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.asciidoctor</groupId>
-                        <artifactId>asciidoctorj</artifactId>
-                        <version>1.5.4</version>
-                        <scope>compile</scope>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.asciidoctor</groupId>
-                        <artifactId>asciidoctorj-pdf</artifactId>
-                        <version>1.5.0-alpha.11</version>
-                        <scope>compile</scope>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.jruby</groupId>
-                        <artifactId>jruby-complete</artifactId>
-                        <version>1.7.21</version>
-                        <scope>compile</scope>
-                    </dependency>
-                </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.2.1</version>
-                <executions>
-                    <execution>
-                        <phase>process-classes</phase>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <mainClass>Main</mainClass>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>

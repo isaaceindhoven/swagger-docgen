@@ -34,6 +34,7 @@ public class Main {
             options.addOption("p", "imagesdir", true, "Asciidoctor images directory");
             options.addOption("f", "fontsdir", true, "Asciidoctor fonts directory");
             options.addOption("t", "toc", false, "Include table of contents");
+            options.addOption("h", "highlighter", true, "Source code highlighter. Possible falues: rouge, pygments, coderay");
 
             options.addOption("g", "groupbytags", false, "Group paths by tags, instead of following the same order as defined by in the spec");
             options.addOption("e", "noexamples", false, "Skip generating example requests.");
@@ -46,6 +47,7 @@ public class Main {
             String styleDir = (cmd.hasOption('d')) ? cmd.getOptionValue('d') : "styles";
             String imagesDir = (cmd.hasOption('p')) ? cmd.getOptionValue('p') : "styles/img";
             String fontsDir = (cmd.hasOption('f')) ? cmd.getOptionValue('f') : "styles/fonts";
+            String highlighter = (cmd.hasOption('h')) ? cmd.getOptionValue('h') : "rouge"; // <--TODO: this
 
             String input = (cmd.hasOption('i')) ? cmd.getOptionValue('i') : "spec.yaml";
             String output = (cmd.hasOption('o')) ? cmd.getOptionValue('o') : "api.pdf";
@@ -79,28 +81,25 @@ public class Main {
 
             // add PDF options to additional string
             if (cmd.hasOption('t')) additional += ":toc:\n";
-            if (cmd.hasOption('d')) additional += String.format(":pdf-stylesdir: %s\n", styleDir);
-            if (cmd.hasOption('f')) additional += String.format(":pdf-fontsdir: %s\n", fontsDir);
-            if (cmd.hasOption('s')) additional += String.format(":pdf-style: %s\n", style);
-            if (cmd.hasOption('p')) additional += String.format(":imagesdir: %s\n", imagesDir);
+            additional += String.format(":pdf-stylesdir: %s\n", styleDir);
+            additional += String.format(":pdf-fontsdir: %s\n", fontsDir);
+            additional += String.format(":pdf-style: %s\n", style);
+            additional += String.format(":imagesdir: %s\n", imagesDir);
+            additional += String.format(":source-highlighter: %s\n", highlighter);
 
 
-            Pattern headerPattern = Pattern.compile("^= (.*)$", Pattern.MULTILINE);
+            Pattern headerPattern = Pattern.compile("^= (.*)", Pattern.MULTILINE);
             Matcher m = headerPattern.matcher(adoc);
 
             // RegEx does not properly match document title
             // @see https://github.com/cascer1/swagger-docgen/issues/4
-            if (m.matches()) {
+            if (m.find()) {
+                System.out.println("m.group(0) = " + m.group(0));
                 String replacement = String.format("%s%s", m.group(0), additional);
 
                 adoc = m.replaceFirst(replacement);
             }
 
-
-            System.out.println("m.matches() = " + m.matches());
-            System.out.println("m.pattern() = " + m.pattern());
-            System.out.println("m = " + m);
-            System.out.println("adoc.substring(0,50) = " + adoc.substring(0, 50));
 
             Asciidoctor asciidoctor = create();
 
@@ -114,10 +113,7 @@ public class Main {
 
             asciidoctor.convert(adoc, asciidocOptions.get());
 
-        } catch (
-                Exception ex)
-
-        {
+        } catch (Exception ex) {
             ex.printStackTrace(System.err);
         }
 
