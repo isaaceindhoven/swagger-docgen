@@ -1,0 +1,147 @@
+# Documentation https://github.com/asciidoctor/asciidoctor-pdf/blob/master/docs/theming-guide.adoc
+# Default theme: https://github.com/asciidoctor/asciidoctor-pdf/blob/master/data/themes/default-theme.yml
+# Need fonts? https://fonts.google.com/
+
+# Let's define colors in one place
+brand:
+  primary: 009ddc         # Default color for headings
+  light: 44b5e2           # Light version of brand color, for backgrounds
+  very_light: cceaf4      # Very light version of brand color, for text on backgrounds
+  warning: f0ad4e         # Reader should pay extra attention
+  caution: dc3f00         # This can easily go wrong
+  info: $brand_primary
+  important: dc002f       # Reader should definitely read this
+  note: 002fdc            # Accompanying information, does not have to be read
+
+title_page:
+  align: right
+  logo_image: image:img/isaac/cover.png[width=250,align=center]
+font:
+  catalog:
+    # Consolas supports all characters present in code and circled numbers used for conums
+    Consolas:
+      normal: consola.ttf
+      italic: consolai.ttf
+      bold: consolab.ttf
+      bold_italic: consolaz.ttf
+    # Tahoma does not have italic variants they must be defined to prevent rendering errors
+    Tahoma:
+      normal: tahoma.ttf
+      italic: tahoma.ttf
+      bold: tahomabd.ttf
+      bold_italic: tahomabd.ttf
+    # Noto Sans supports Latin, Latin-1 Supplement, Latin Extended-A, Greek, Cyrillic, Vietnamese & an assortment of symbols
+    Noto Sans:
+      normal: NotoSans-Regular.ttf
+      bold: NotoSans-Bold.ttf
+      italic: NotoSans-Italic.ttf
+      bold_italic: NotoSans-BoldItalic.ttf
+    # Noto Serif supports Latin, Latin-1 Supplement, Latin Extended-A, Greek, Cyrillic, Vietnamese & an assortment of symbols
+    Noto Serif:
+      normal: notoserif-regular-subset.ttf
+      bold: notoserif-bold-subset.ttf
+      italic: notoserif-italic-subset.ttf
+      bold_italic: notoserif-bold_italic-subset.ttf
+    # M+ 1mn supports ASCII and the circled numbers used for conums
+    M+ 1mn:
+      normal: mplus1mn-regular-ascii-conums.ttf
+      bold: mplus1mn-bold-ascii.ttf
+      italic: mplus1mn-italic-ascii.ttf
+      bold_italic: mplus1mn-bold_italic-ascii.ttf
+    # M+ 1p supports Latin, Latin-1 Supplement, Latin Extended, Greek, Cyrillic, Vietnamese, Japanese & an assortment of symbols
+    # It also provides arrows for ->, <-, => and <= replacements in case these glyphs are missing from font
+    M+ 1p Fallback:
+      normal: mplus1p-regular-fallback.ttf
+      bold: mplus1p-regular-fallback.ttf
+      italic: mplus1p-regular-fallback.ttf
+      bold_italic: mplus1p-regular-fallback.ttf
+  fallbacks:
+    - M+ 1p Fallback
+base:
+  font_color: 333333
+  line_height_length: 17
+  font_size: 12
+  line_height: $base_line_height_length / $base_font_size
+  font_family: Noto Sans
+  border_radius: 4
+  border_width: 0.5
+vertical_rhythm: $base_line_height_length
+page:
+  layout: portrait
+  margin: [0.75in, 0.5in, 0.75in, 0.5in]
+  size: A4
+heading:
+  font_color: $brand_primary
+  font_size: 17
+  font_style: bold
+  line_height: 1.2
+  margin_bottom: $vertical_rhythm
+  font_family: Tahoma
+link:
+  font_color: $brand_primary
+outline_list:
+  indent: $base_font_size * 1.5
+blockquote:
+  font_style: italic
+header:
+  height: 0.75in
+  line_height: 0 #0 = disable
+  recto_content:
+    center: '{document-title}'
+  verso_content:
+    center: '{document-title}'
+footer:
+  height: 0.75in
+  line_height: 1
+  recto_content:
+    # right: '{document-title} | *{page-number}*'
+    right: '{section-or-chapter-title} | *{page-number}*'
+    # right: '{chapter-title} | *{page-number}*'
+  verso_content:
+    # left: '*{page-number}* | {document-title}'
+    # left: '{page-number} | {chapter-title}'
+    left: '*{page-number}* | {section-or-chapter-title}'
+image:
+  align: center
+admonition:
+  icon:
+    tip:
+      name: fa-lightbulb-o
+      stroke_color: $brand_info
+    note:
+      name: fa-info
+      stroke_color: $brand_note
+    warning:
+      name: fa-exclamation-triangle
+      stroke_color: $brand_warning
+    important:
+      name: fa-exclamation
+      stroke_color: $brand_important
+    caution:
+      name: fa-fire
+      stroke_color: $brand_caution
+table:
+  background_color: $page_background_color
+  head_font_color: $brand_very_light
+  head_background_color: $brand_light
+  head_font_style: bold
+  even_row_background_color: f9f9f9
+  #odd_row_background_color: <hex value>
+  foot_background_color: $brand_very_light
+  border_color: dddddd
+  border_width: $base_border_width
+  cell_padding: [3, 3, 3, 3]
+literal:
+  font_family: Consolas
+  font_color: aa2222
+code:
+  font_family: $literal_font_family
+  font_size: ceil($base_font_size)
+  padding: $code_font_size
+  line_height: 1.15
+  background_color: f5f5f5
+  border_color: cccccc
+  border_radius: $base_border_radius
+  border_width: 0.75
+conum:    # Circled numbers
+  font_family: M+ 1mn

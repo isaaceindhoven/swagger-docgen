@@ -19,6 +19,8 @@ securityDefinitions:
 paths:
   /merchants/{merchantId}/calculators/services:
     get:
+      summary: |
+        This is a summary!
       description: |
         Get a list of all calculator services for the merchant.
       security:
