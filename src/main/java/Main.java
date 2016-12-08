@@ -15,7 +15,6 @@ import org.asciidoctor.SafeMode;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -55,7 +54,6 @@ public class Main {
 
             Path inputFile = Paths.get(input);
             File outputFile = new File(output);
-            Path tempFile = Paths.get("temp.adoc");
             File templateDirectory = new File(styleDir);
 
             Swagger2MarkupConfigBuilder configBuilder = new Swagger2MarkupConfigBuilder()
@@ -123,31 +121,5 @@ public class Main {
             ex.printStackTrace(System.err);
         }
 
-    }
-
-    /**
-     * Generate a string representing the current date and time
-     *
-     * @return String, formatted yyyy_MM_dd-HH_mm_ss
-     */
-    private static String getDateString() {
-        LocalDateTime dt = LocalDateTime.now();
-        String year = String.valueOf(dt.getYear());
-        String month = String.valueOf(dt.getMonthValue());
-        String day = String.valueOf(dt.getDayOfMonth());
-        String hour = String.valueOf(dt.getHour());
-        String minute = String.valueOf(dt.getMinute());
-        String second = String.valueOf(dt.getSecond());
-
-        return String.format("%4s_%2s_%2s-%2s_%2s_%2s", year, month, day, hour, minute, second).replace(' ', '0');
-    }
-
-    public static void emptyFolder(File folder) {
-        File[] files = folder.listFiles();
-        if (files != null) { //some JVMs return null for empty dirs
-            for (File f : files) {
-                f.delete();
-            }
-        }
     }
 }
