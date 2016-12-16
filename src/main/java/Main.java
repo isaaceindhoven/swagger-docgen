@@ -35,9 +35,10 @@ public class Main {
             options.addOption("f", "fontsdir", true, "Asciidoctor fonts directory");
             options.addOption("t", "toc", false, "Include table of contents");
             options.addOption("h", "highlighter", true, "Source code highlighter. Possible falues: rouge, pygments, coderay");
+            options.addOption("r", "headerregex", true, "Regex pattern used for determining operation categories. First capture group will be category name. Cannot be combined with -g");
 
-            options.addOption("g", "groupbytags", false, "Group paths by tags, instead of following the same order as defined by in the spec");
-            options.addOption("e", "noexamples", false, "Skip generating example requests.");
+            options.addOption("g", "groupbytags", false, "Group paths by tags, cannot be combined with -r");
+            options.addOption("e", "examples", false, "Generate examples where none are defined");
 
 
             CommandLineParser parser = new DefaultParser();
@@ -52,7 +53,9 @@ public class Main {
             String input = (cmd.hasOption('i')) ? cmd.getOptionValue('i') : "spec.yaml";
             String output = (cmd.hasOption('o')) ? cmd.getOptionValue('o') : "api.pdf";
             GroupBy group = (cmd.hasOption('g')) ? GroupBy.TAGS : GroupBy.AS_IS;
-            boolean generateExamples = (!cmd.hasOption('e'));
+            boolean generateExamples = (cmd.hasOption('e'));
+
+            group = (cmd.hasOption('r')) ? GroupBy.REGEX : group;
 
             Path inputFile = Paths.get(input);
             File outputFile = new File(output);
@@ -65,6 +68,7 @@ public class Main {
                     .withInterDocumentCrossReferences();
 
             if (generateExamples) configBuilder.withGeneratedExamples();
+            if (cmd.hasOption('r')) configBuilder.withHeaderRegex(cmd.getOptionValue('r'));
 
             Swagger2MarkupConfig config = configBuilder.build();
 
@@ -86,20 +90,16 @@ public class Main {
             additional += String.format(":pdf-style: %s\n", style);
             additional += String.format(":imagesdir: %s\n", imagesDir);
             additional += String.format(":source-highlighter: %s\n", highlighter);
+            if(cmd.hasOption('r')) additional += ":toclevels: 3";
 
 
             Pattern headerPattern = Pattern.compile("^= (.*)", Pattern.MULTILINE);
             Matcher m = headerPattern.matcher(adoc);
 
-            // RegEx does not properly match document title
-            // @see https://github.com/cascer1/swagger-docgen/issues/4
             if (m.find()) {
-                System.out.println("m.group(0) = " + m.group(0));
                 String replacement = String.format("%s%s", m.group(0), additional);
-
                 adoc = m.replaceFirst(replacement);
             }
-
 
             Asciidoctor asciidoctor = create();
 

@@ -12,7 +12,8 @@
 .idea/gradle.xml
 .idea/libraries
 
-/out/
-/target/
-/build/
-/spec/
+out/
+target/
+build/
+spec/
+*.pdf
