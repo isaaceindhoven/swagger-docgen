@@ -1,7 +1,4 @@
-import io.github.swagger2markup.GroupBy;
-import io.github.swagger2markup.Language;
-import io.github.swagger2markup.Swagger2MarkupConfig;
-import io.github.swagger2markup.Swagger2MarkupConverter;
+import io.github.swagger2markup.*;
 import io.github.swagger2markup.builder.Swagger2MarkupConfigBuilder;
 import io.github.swagger2markup.markup.builder.MarkupLanguage;
 import org.apache.commons.cli.CommandLine;
@@ -15,9 +12,14 @@ import org.asciidoctor.SafeMode;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static io.github.swagger2markup.PageBreakLocations.AFTER_OPERATION;
 import static org.asciidoctor.Asciidoctor.Factory.create;
 import static org.asciidoctor.OptionsBuilder.options;
 
@@ -61,11 +63,14 @@ public class Main {
             File outputFile = new File(output);
             File templateDirectory = new File(styleDir);
 
+            List<PageBreakLocations> pageBreakLocations = new ArrayList<>(Collections.singletonList(PageBreakLocations.AFTER_OPERATION));
+
             Swagger2MarkupConfigBuilder configBuilder = new Swagger2MarkupConfigBuilder()
                     .withMarkupLanguage(MarkupLanguage.ASCIIDOC)
                     .withOutputLanguage(Language.EN)
                     .withPathsGroupedBy(group)
-                    .withInterDocumentCrossReferences();
+                    .withInterDocumentCrossReferences()
+                    .withPageBreaks(pageBreakLocations);
 
             if (generateExamples) configBuilder.withGeneratedExamples();
             if (cmd.hasOption('r')) configBuilder.withHeaderRegex(cmd.getOptionValue('r'));
