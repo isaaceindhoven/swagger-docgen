@@ -1,69 +1,126 @@
-import io.github.swagger2markup.GroupBy;
-import io.github.swagger2markup.Language;
-import io.github.swagger2markup.Swagger2MarkupConfig;
-import io.github.swagger2markup.Swagger2MarkupConverter;
+import io.github.swagger2markup.*;
 import io.github.swagger2markup.builder.Swagger2MarkupConfigBuilder;
 import io.github.swagger2markup.markup.builder.MarkupLanguage;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.Options;
+import org.asciidoctor.Asciidoctor;
+import org.asciidoctor.OptionsBuilder;
+import org.asciidoctor.SafeMode;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-/**
- * Created by cas.eliens on 31-Aug-16.
- */
+import static io.github.swagger2markup.PageBreakLocations.AFTER_OPERATION;
+import static org.asciidoctor.Asciidoctor.Factory.create;
+import static org.asciidoctor.OptionsBuilder.options;
+
 public class Main {
     public static void main(String[] args) {
         try {
-            File folder = new File("work/temp");
-            emptyFolder(folder);
-            //URL swaggerFile = new URL("http://petstore.swagger.io/v2/swagger.json");
-            Path swaggerFile = Paths.get("work/input/spec.yaml");
-            Path outputFile = Paths.get("work/temp/api_" + getDateString());
+            // Setup CLI argument parsing
+            Options options = new Options();
+            options.addOption("i", "input", true, "Input file");
+            options.addOption("o", "output", true, "Output file");
 
-            Swagger2MarkupConfig config = new Swagger2MarkupConfigBuilder()
+            options.addOption("s", "style", true, "Asciidoctor PDF style");
+            options.addOption("d", "styledir", true, "Asciidoctor style directory");
+            options.addOption("p", "imagesdir", true, "Asciidoctor images directory");
+            options.addOption("f", "fontsdir", true, "Asciidoctor fonts directory");
+            options.addOption("t", "toc", false, "Include table of contents");
+            options.addOption("h", "highlighter", true, "Source code highlighter. Possible falues: rouge, pygments, coderay");
+            options.addOption("r", "headerregex", true, "Regex pattern used for determining operation categories. First capture group will be category name. Cannot be combined with -g");
+
+            options.addOption("g", "groupbytags", false, "Group paths by tags, cannot be combined with -r");
+            options.addOption("e", "examples", false, "Generate examples where none are defined");
+
+
+            CommandLineParser parser = new DefaultParser();
+            CommandLine cmd = parser.parse(options, args);
+
+            String style = (cmd.hasOption('s')) ? cmd.getOptionValue('s') : "default";
+            String styleDir = (cmd.hasOption('d')) ? cmd.getOptionValue('d') : "styles";
+            String imagesDir = (cmd.hasOption('p')) ? cmd.getOptionValue('p') : "styles/img";
+            String fontsDir = (cmd.hasOption('f')) ? cmd.getOptionValue('f') : "styles/fonts";
+            String highlighter = (cmd.hasOption('h')) ? cmd.getOptionValue('h') : "rouge"; // <--TODO: this
+
+            String input = (cmd.hasOption('i')) ? cmd.getOptionValue('i') : "spec.yaml";
+            String output = (cmd.hasOption('o')) ? cmd.getOptionValue('o') : "api.pdf";
+            GroupBy group = (cmd.hasOption('g')) ? GroupBy.TAGS : GroupBy.AS_IS;
+            boolean generateExamples = (cmd.hasOption('e'));
+
+            group = (cmd.hasOption('r')) ? GroupBy.REGEX : group;
+
+            Path inputFile = Paths.get(input);
+            File outputFile = new File(output);
+            File templateDirectory = new File(styleDir);
+
+            List<PageBreakLocations> pageBreakLocations = new ArrayList<>(Collections.singletonList(PageBreakLocations.AFTER_OPERATION));
+
+            Swagger2MarkupConfigBuilder configBuilder = new Swagger2MarkupConfigBuilder()
                     .withMarkupLanguage(MarkupLanguage.ASCIIDOC)
                     .withOutputLanguage(Language.EN)
-                    .withPathsGroupedBy(GroupBy.TAGS)
-                    .withGeneratedExamples()
+                    .withPathsGroupedBy(group)
                     .withInterDocumentCrossReferences()
-                    .build();
+                    .withPageBreaks(pageBreakLocations);
 
-            Swagger2MarkupConverter converter = Swagger2MarkupConverter.from(swaggerFile)
+            if (generateExamples) configBuilder.withGeneratedExamples();
+            if (cmd.hasOption('r')) configBuilder.withHeaderRegex(cmd.getOptionValue('r'));
+
+            Swagger2MarkupConfig config = configBuilder.build();
+
+            Swagger2MarkupConverter converter = Swagger2MarkupConverter.from(inputFile)
                     .withConfig(config)
                     .build();
 
+            //converter.toFile(tempFile);
+            String adoc = converter.toString();
 
-            converter.toFile(outputFile);
+            // String to append to title, used for pdf conversion parameters
+            String additional = "\n";
+
+
+            // add PDF options to additional string
+            if (cmd.hasOption('t')) additional += ":toc:\n";
+            additional += String.format(":pdf-stylesdir: %s\n", styleDir);
+            additional += String.format(":pdf-fontsdir: %s\n", fontsDir);
+            additional += String.format(":pdf-style: %s\n", style);
+            additional += String.format(":imagesdir: %s\n", imagesDir);
+            additional += String.format(":source-highlighter: %s\n", highlighter);
+            if(cmd.hasOption('r')) additional += ":toclevels: 3";
+
+
+            Pattern headerPattern = Pattern.compile("^= (.*)", Pattern.MULTILINE);
+            Matcher m = headerPattern.matcher(adoc);
+
+            if (m.find()) {
+                String replacement = String.format("%s%s", m.group(0), additional);
+                adoc = m.replaceFirst(replacement);
+            }
+
+            Asciidoctor asciidoctor = create();
+
+            OptionsBuilder asciidocOptions = options();
+
+            asciidocOptions.templateDir(templateDirectory);
+            asciidocOptions.backend("pdf");
+            asciidocOptions.docType("book");
+            asciidocOptions.safe(SafeMode.SAFE);
+            asciidocOptions.toFile(outputFile);
+
+            asciidoctor.convert(adoc, asciidocOptions.get());
+
         } catch (Exception ex) {
             ex.printStackTrace(System.err);
         }
-    }
 
-    /**
-     * Generate a string representing the current date and time
-     *
-     * @return String, formatted yyyy_MM_dd-HH_mm_ss
-     */
-    private static String getDateString() {
-        LocalDateTime dt = LocalDateTime.now();
-        String year = String.valueOf(dt.getYear());
-        String month = String.valueOf(dt.getMonthValue());
-        String day = String.valueOf(dt.getDayOfMonth());
-        String hour = String.valueOf(dt.getHour());
-        String minute = String.valueOf(dt.getMinute());
-        String second = String.valueOf(dt.getSecond());
-
-        return String.format("%4s_%2s_%2s-%2s_%2s_%2s", year, month, day, hour, minute, second).replace(' ', '0');
-    }
-
-    public static void emptyFolder(File folder) {
-        File[] files = folder.listFiles();
-        if (files != null) { //some JVMs return null for empty dirs
-            for (File f : files) {
-                f.delete();
-            }
-        }
     }
 }
