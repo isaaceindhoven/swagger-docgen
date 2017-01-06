@@ -13,13 +13,11 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static io.github.swagger2markup.PageBreakLocations.AFTER_OPERATION;
 import static org.asciidoctor.Asciidoctor.Factory.create;
 import static org.asciidoctor.OptionsBuilder.options;
 
@@ -95,7 +93,7 @@ public class Main {
             additional += String.format(":pdf-style: %s\n", style);
             additional += String.format(":imagesdir: %s\n", imagesDir);
             additional += String.format(":source-highlighter: %s\n", highlighter);
-            if(cmd.hasOption('r')) additional += ":toclevels: 3";
+            if (cmd.hasOption('r')) additional += ":toclevels: 3";
 
 
             Pattern headerPattern = Pattern.compile("^= (.*)", Pattern.MULTILINE);
