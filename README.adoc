@@ -1,12 +1,19 @@
 = Swagger spec to PDF documentation tool
 
+![[codacy grade][codacy-img]][codacy-url]
+
+
 This tool takes a Swagger API specification (in yaml or json) and converts it into a PDF file.
+
+== Examples
+
+Surely you're wondering what this tool can do for you. Have a look at some of our link:https://github.com/isaaceindhoven/swagger-docgen/tree/develop/examples[examples]!
 
 == Usage
 
 The tool can be executed from the command line.
 
-    Swagger2PDF -i path/to/spec.yaml -o path/to/api.pdf\
+    Swagger2PDF -i path/to/spec.yaml -o path/to/api.pdf
 
 === Options
 
@@ -30,3 +37,7 @@ The tool can be executed from the command line.
 | -h | --highlighter | Asciidoctor code highlighting engine +
                        Possible values: rouge, pygments, coderay| coderay
 |===
+
+
+[codacy-img]: https://img.shields.io/codacy/grade/e71173e30bc849dd8b81acb36420c367.svg
+[codacy-url]: https://www.codacy.com/app/cascer1/swagger-docgen/dashboard
