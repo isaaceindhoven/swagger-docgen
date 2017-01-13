@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Class-Path: swagger-compat-spec-parser-1.0.23.jar json-schema-core-1.2
+ .1.jar commons-configuration2-2.1.jar libphonenumber-6.0.jar swagger-
+ models-1.5.10.jar commons-codec-1.10.jar jackson-core-2.4.5.jar marku
+ p-document-builder-1.1.1.jar slf4j-api-1.7.21.jar javaslang-2.0.4.jar
+  commons-collections-3.2.1.jar jackson-annotations-2.4.5.jar swagger-
+ annotations-1.5.10.jar commons-logging-1.2.jar asm-util-4.1.jar asm-a
+ nalysis-4.1.jar jcommander-1.35.jar swagger-parser-1.0.23.jar jopt-si
+ mple-4.6.jar commons-collections4-4.1.jar jackson-databind-2.4.5.jar 
+ guava-18.0.jar swagger2markup-1.2.0.jar btf-1.2.jar asciidoctorj-1.5.
+ 4.jar slf4j-simple-1.7.21.jar commons-lang3-3.4.jar jsoup-1.8.1.jar r
+ hino-1.7R4.jar mailapi-1.4.3.jar parboiled-core-1.1.6.jar pegdown-1.4
+ .2.jar joda-time-2.3.jar swagger-core-1.5.10.jar jsr305-2.0.1.jar par
+ boiled-java-1.1.6.jar slf4j-ext-1.6.3.jar asm-4.1.jar asm-tree-4.1.ja
+ r httpcore-4.3.2.jar commons-beanutils-1.9.2.jar cal10n-api-0.7.4.jar
+  json-patch-1.6.jar httpclient-4.3.3.jar markdown_to_asciidoc-1.0.jar
+  activation-1.1.jar jruby-complete-1.7.21.jar json-schema-validator-2
+ .2.3.jar snakeyaml-1.12.jar jackson-dataformat-yaml-2.4.5.jar javasla
+ ng-match-2.0.4.jar jackson-coreutils-1.6.jar asciidoctorj-pdf-1.5.0-a
+ lpha.11.jar commons-io-2.4.jar paleo-core-0.10.1.jar msg-simple-1.1.j
+ ar uri-template-0.9.jar validation-api-1.1.0.Final.jar jackson-dataty
+ pe-joda-2.4.5.jar commons-cli-1.3.1.jar
+Main-Class: nl.isaac.apidocs.swagger.Main
+

@@ -1,3 +1,5 @@
+package nl.isaac.apidocs.swagger;
+
 import io.github.swagger2markup.*;
 import io.github.swagger2markup.builder.Swagger2MarkupConfigBuilder;
 import io.github.swagger2markup.markup.builder.MarkupLanguage;
@@ -44,6 +46,7 @@ public class Main {
             CommandLineParser parser = new DefaultParser();
             CommandLine cmd = parser.parse(options, args);
 
+            // Parse arguments or assign default values
             String style = (cmd.hasOption('s')) ? cmd.getOptionValue('s') : "default";
             String styleDir = (cmd.hasOption('d')) ? cmd.getOptionValue('d') : "styles";
             String imagesDir = (cmd.hasOption('p')) ? cmd.getOptionValue('p') : "styles/img";
@@ -53,16 +56,21 @@ public class Main {
             String input = (cmd.hasOption('i')) ? cmd.getOptionValue('i') : "spec.yaml";
             String output = (cmd.hasOption('o')) ? cmd.getOptionValue('o') : "api.pdf";
             GroupBy group = (cmd.hasOption('g')) ? GroupBy.TAGS : GroupBy.AS_IS;
-            boolean generateExamples = (cmd.hasOption('e'));
-
             group = (cmd.hasOption('r')) ? GroupBy.REGEX : group;
 
+
+            boolean generateExamples = (cmd.hasOption('e'));
+
+            // Page break locations are currently hardcoded
+            List<PageBreakLocations> pageBreakLocations = new ArrayList<>(Collections.singletonList(PageBreakLocations.AFTER_OPERATION));
+
+            // Load Swagger spec
             Path inputFile = Paths.get(input);
             File outputFile = new File(output);
             File templateDirectory = new File(styleDir);
 
-            List<PageBreakLocations> pageBreakLocations = new ArrayList<>(Collections.singletonList(PageBreakLocations.AFTER_OPERATION));
 
+            // Initialize Swagger2Markup config
             Swagger2MarkupConfigBuilder configBuilder = new Swagger2MarkupConfigBuilder()
                     .withMarkupLanguage(MarkupLanguage.ASCIIDOC)
                     .withOutputLanguage(Language.EN)
@@ -75,11 +83,12 @@ public class Main {
 
             Swagger2MarkupConfig config = configBuilder.build();
 
+            // Convert Swagger spec to asciidoc
             Swagger2MarkupConverter converter = Swagger2MarkupConverter.from(inputFile)
                     .withConfig(config)
                     .build();
 
-            //converter.toFile(tempFile);
+            // Save conversion result to String
             String adoc = converter.toString();
 
             // String to append to title, used for pdf conversion parameters
@@ -87,6 +96,7 @@ public class Main {
 
 
             // add PDF options to additional string
+            // Must be added directly below document title
             if (cmd.hasOption('t')) additional += ":toc:\n";
             additional += String.format(":pdf-stylesdir: %s\n", styleDir);
             additional += String.format(":pdf-fontsdir: %s\n", fontsDir);
@@ -95,7 +105,7 @@ public class Main {
             additional += String.format(":source-highlighter: %s\n", highlighter);
             if (cmd.hasOption('r')) additional += ":toclevels: 3";
 
-
+            // Find document title and append PDF options
             Pattern headerPattern = Pattern.compile("^= (.*)", Pattern.MULTILINE);
             Matcher m = headerPattern.matcher(adoc);
 
@@ -104,6 +114,7 @@ public class Main {
                 adoc = m.replaceFirst(replacement);
             }
 
+            // Create asciidoctor-j instance for convesion to PDF
             Asciidoctor asciidoctor = create();
 
             OptionsBuilder asciidocOptions = options();
@@ -114,6 +125,7 @@ public class Main {
             asciidocOptions.safe(SafeMode.SAFE);
             asciidocOptions.toFile(outputFile);
 
+            // Convert asciidoc String to PDF
             asciidoctor.convert(adoc, asciidocOptions.get());
 
         } catch (Exception ex) {

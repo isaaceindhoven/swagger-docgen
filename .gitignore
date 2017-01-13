@@ -1,19 +1,6 @@
-*.class
-
-
-# User-specific stuff:
-.idea/workspace.xml
-.idea/tasks.xml
-.idea/dictionaries
-.idea/vcs.xml
-.idea/jsLibraryMappings.xml
-
-# Gradle:
-.idea/gradle.xml
-.idea/libraries
-
 out/
 target/
 build/
 spec/
 *.pdf
+.idea/
