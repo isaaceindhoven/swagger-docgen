@@ -1,6 +1,6 @@
 = Swagger spec to PDF documentation tool
 
-link:https://www.codacy.com/app/cascer1/swagger-docgen/dashboard[image:https://img.shields.io/codacy/grade/e71173e30bc849dd8b81acb36420c367.svg]
+image::https://img.shields.io/codacy/grade/e71173e30bc849dd8b81acb36420c367.svg[flink="https://www.codacy.com/app/cascer1/swagger-docgen/dashboard"]
 
 
 This tool takes a Swagger API specification (in yaml or json) and converts it into a PDF file.
