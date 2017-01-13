@@ -11,3 +11,7 @@
 == petstoreToc
 
     Swagger2PDF -i spec/petstore.yaml -o petstoreToc.pdf -t
+
+== petstoreRegex
+
+    Swagger2PDF -i spec/petstore.yaml -o petstoreRegex.pdf -r \/(\w+)\/.*$ -t
