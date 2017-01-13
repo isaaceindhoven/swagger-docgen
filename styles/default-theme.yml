@@ -15,9 +15,14 @@ brand:
 
 title_page:
   align: right
-  logo_image: image:img/isaac/cover.png[width=250,align=center]
+  logo_image: image:img/default/cover.png[width=250,align=center]
 font:
   catalog:
+    Rockwell:
+        normal: ROCK.TTF
+        italic: ROCKI.TTF
+        bold: ROCKB.TTF
+        bold_italic: ROCKBI.TTF
     # Consolas supports all characters present in code and circled numbers used for conums
     Consolas:
       normal: consola.ttf
@@ -76,7 +81,7 @@ heading:
   font_style: bold
   line_height: 1.2
   margin_bottom: $vertical_rhythm
-  font_family: Tahoma
+  font_family: Rockwell
 link:
   font_color: $brand_primary
 outline_list:
@@ -94,32 +99,9 @@ footer:
   height: 0.75in
   line_height: 1
   recto_content:
-    # right: '{document-title} | *{page-number}*'
     right: '{section-or-chapter-title} | *{page-number}*'
-    # right: '{chapter-title} | *{page-number}*'
   verso_content:
-    # left: '*{page-number}* | {document-title}'
-    # left: '{page-number} | {chapter-title}'
     left: '*{page-number}* | {section-or-chapter-title}'
-image:
-  align: center
-admonition:
-  icon:
-    tip:
-      name: fa-lightbulb-o
-      stroke_color: $brand_info
-    note:
-      name: fa-info
-      stroke_color: $brand_note
-    warning:
-      name: fa-exclamation-triangle
-      stroke_color: $brand_warning
-    important:
-      name: fa-exclamation
-      stroke_color: $brand_important
-    caution:
-      name: fa-fire
-      stroke_color: $brand_caution
 table:
   background_color: $page_background_color
   head_font_color: $brand_very_light
@@ -143,5 +125,3 @@ code:
   border_color: cccccc
   border_radius: $base_border_radius
   border_width: 0.75
-conum:    # Circled numbers
-  font_family: M+ 1mn

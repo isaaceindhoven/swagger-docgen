@@ -1,0 +1,42 @@
+= Example commands
+
+== Basic
+
+> basic.pdf
+
+    Swagger2PDF -i spec/petstore.yaml -o basic.pdf
+
+== Generated examples
+
+> generatedExamples.pdf
+
+Using Swagger2Markup, we are able to generate examples in places where none are defined.
+This features is still in development, but it may be useful to you.
+
+    Swagger2PDF -i spec/petstore.yaml -o generatedExamples.pdf -e
+
+== Table of Contents
+
+> toc.pdf
+
+Asciidoctor can automatically generate a table of contents for you.
+
+    Swagger2PDF -i spec/petstore.yaml -o toc.pdf -t
+
+== RegEx grouping
+
+> regex.pdf
+
+The plugin can group operations using Regular Expressions.
+This allows you to introduce a custom structure to the document.
+We also included a table of contents in this example, to clearly display the structure.
+
+The first capture group will be used to group operations together, make sure that it isn't unique to each operation because then you'll end up with a lot of categories.
+
+    Swagger2PDF -i spec/petstore.yaml -o regex.pdf -r \/(\w+)\/.*$ -t
+
+== Different Style
+
+> style.pdf
+
+    Swagger2PDF -i spec/petstore.yaml -o style.pdf -s alternate

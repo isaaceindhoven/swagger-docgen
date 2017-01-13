@@ -1,0 +1,46 @@
+= Swagger spec to PDF documentation tool
+
+image::https://img.shields.io/codacy/grade/e71173e30bc849dd8b81acb36420c367.svg[link="https://www.codacy.com/app/cascer1/swagger-docgen/dashboard"]
+
+
+This tool takes a Swagger API specification (in yaml or json) and converts it into a PDF file.
+
+== Examples
+
+Surely you're wondering what this tool can do for you. Have a look at some of our link:https://github.com/isaaceindhoven/swagger-docgen/tree/develop/examples[examples]!
+
+== Usage
+
+The tool can be executed from the command line.
+
+    Swagger2PDF -i path/to/spec.yaml -o path/to/api.pdf
+
+=== Options
+
+[options="header", cols="1,3,6,4"]
+|===
+| Short | Long | Description | Example
+4+^s| Required options
+| -i | --input | Input Swagger spec | spec.yaml
+| -o | --output | Output PDF file | api.pdf
+4+^s| Other options
+| -t | --toc | Generate Table of Contents | `boolean`
+| -g | --groupbytags | Group paths by tags. +
+                       *Cannot be combined with `-r`* | `boolean`
+| -r | --headerregex | RegEx pattern used for determining operation categories. First capture group will be category name. +
+                       *Cannot be combined with `-g`* | `\/operations\/(\w+).*$`
+4+^s| Styling options
+| -s | --style | Asciidoctor style | default
+| -d | --styledir | Asciidoctor styles directory | styles
+| -p | --imagesdir | Asciidoctor images directory | styles/img
+| -f | --fontsdir | Asciidoctor fonts directory | style/fonts
+| -h | --highlighter | Asciidoctor code highlighting engine +
+                       Possible values: rouge, pygments, coderay| coderay
+|===
+
+== Tools
+
+This project depends on a few different tools to make everything possible. Go give them some love too!
+
+* https://github.com/Swagger2Markup/swagger2markup[Swagger2Markup] for converting the Swagger spec to an Asciidoc file
+* https://github.com/asciidoctor/asciidoctorj[asciidoctorj and asciidoctorj-pdf] for converting the Asciidoc file to a PDF file
