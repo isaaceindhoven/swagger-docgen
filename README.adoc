@@ -37,3 +37,10 @@ The tool can be executed from the command line.
 | -h | --highlighter | Asciidoctor code highlighting engine +
                        Possible values: rouge, pygments, coderay| coderay
 |===
+
+== Tools
+
+This project depends on a few different tools to make everything possible. Go give them some love too!
+
+* https://github.com/Swagger2Markup/swagger2markup[Swagger2Markup] for converting the Swagger spec to an Asciidoc file
+* https://github.com/asciidoctor/asciidoctorj[asciidoctorj and asciidoctorj-pdf] for converting the Asciidoc file to a PDF file
