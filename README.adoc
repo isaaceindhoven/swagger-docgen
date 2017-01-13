@@ -10,7 +10,7 @@ The tool can be executed from the command line.
 
 === Options
 
-[options="header", cols="1,2,5,3"]
+[options="header", cols="1,3,6,4"]
 |===
 | Short | Long | Description | Example
 4+^s| Required options
@@ -18,7 +18,7 @@ The tool can be executed from the command line.
 | -o | --output | Output PDF file | api.pdf
 4+^s| Other options
 | -t | --toc | Generate Table of Contents | `boolean`
-| -g | --gropubytags | Group paths by tags. +
+| -g | --groupbytags | Group paths by tags. +
                        *Cannot be combined with `-r`* | `boolean`
 | -r | --headerregex | RegEx pattern used for determining operation categories. First capture group will be category name. +
                        *Cannot be combined with `-g`* | `\/operations\/(\w+).*$`
