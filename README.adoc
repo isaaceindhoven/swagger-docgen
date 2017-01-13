@@ -1,0 +1,32 @@
+= Swagger spec to PDF documentation tool
+
+This tool takes a Swagger API specification (in yaml or json) and converts it into a PDF file.
+
+== Usage
+
+The tool can be executed from the command line.
+
+    Swagger2PDF -i path/to/spec.yaml -o path/to/api.pdf\
+
+=== Options
+
+[options="header", cols="1,2,5,3"]
+|===
+| Short | Long | Description | Example
+4+^s| Required options
+| -i | --input | Input Swagger spec | spec.yaml
+| -o | --output | Output PDF file | api.pdf
+4+^s| Other options
+| -t | --toc | Generate Table of Contents | `boolean`
+| -g | --gropubytags | Group paths by tags. +
+                       *Cannot be combined with `-r`* | `boolean`
+| -r | --headerregex | RegEx pattern used for determining operation categories. First capture group will be category name. +
+                       *Cannot be combined with `-g`* | `\/operations\/(\w+).*$`
+4+^s| Styling options
+| -s | --style | Asciidoctor style | default
+| -d | --styledir | Asciidoctor styles directory | styles
+| -p | --imagesdir | Asciidoctor images directory | styles/img
+| -f | --fontsdir | Asciidoctor fonts directory | style/fonts
+| -h | --highlighter | Asciidoctor code highlighting engine +
+                       Possible values: rouge, pygments, coderay| coderay
+|===

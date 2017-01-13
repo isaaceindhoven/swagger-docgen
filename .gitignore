@@ -2,5 +2,4 @@ out/
 target/
 build/
 spec/
-*.pdf
 .idea/
