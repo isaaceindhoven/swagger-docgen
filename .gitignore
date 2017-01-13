@@ -1,5 +1,5 @@
 out/
 target/
 build/
-spec/
+/spec/
 .idea/
