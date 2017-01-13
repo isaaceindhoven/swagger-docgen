@@ -18,6 +18,11 @@ title_page:
   logo_image: image:img/default/cover.png[width=250,align=center]
 font:
   catalog:
+    Rockwell:
+        normal: ROCK.TTF
+        italic: ROCKI.TTF
+        bold: ROCKB.TTF
+        bold_italic: ROCKBI.TTF
     # Consolas supports all characters present in code and circled numbers used for conums
     Consolas:
       normal: consola.ttf
@@ -76,7 +81,7 @@ heading:
   font_style: bold
   line_height: 1.2
   margin_bottom: $vertical_rhythm
-  font_family: Tahoma
+  font_family: Rockwell
 link:
   font_color: $brand_primary
 outline_list:
