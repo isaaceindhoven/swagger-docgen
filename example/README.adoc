@@ -1,0 +1,13 @@
+= Example commands
+
+== petstore
+
+    Swagger2PDF -i spec/petstore.yaml -o petstore.pdf
+
+== petstoreExamples
+
+    Swagger2PDF -i spec/petstore.yaml -o petstoreExamples.pdf -e
+
+== petstoreToc
+
+    Swagger2PDF -i spec/petstore.yaml -o petstoreToc.pdf -t
