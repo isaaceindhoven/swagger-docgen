@@ -23,7 +23,7 @@ package nl.isaac.apidocs.swagger;
 import io.github.swagger2markup.*;
 import io.github.swagger2markup.builder.Swagger2MarkupConfigBuilder;
 import io.github.swagger2markup.markup.builder.MarkupLanguage;
-import nl.isaac.apidocs.swagger.Factory.OptionFactory;
+import nl.isaac.apidocs.swagger.factory.OptionFactory;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -121,7 +121,7 @@ public class Main {
                 adoc = m.replaceFirst(replacement);
             }
 
-            // Create asciidoctor-j instance for convesion to PDF
+            // Create asciidoctor-j instance for conversion to PDF
             Asciidoctor asciidoctor = create();
 
             OptionsBuilder asciidocOptions = options();
