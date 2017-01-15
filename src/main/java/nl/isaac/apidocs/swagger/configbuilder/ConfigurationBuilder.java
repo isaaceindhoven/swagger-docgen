@@ -33,6 +33,9 @@ import java.util.List;
 
 /**
  * Created by loci on 14-1-17.
+ * Used in building a {@link Swagger2MarkupConfigBuilder} and determining
+ * whether or not any additional options need to be set for the building of the
+ * eventual PDF.
  */
 public class ConfigurationBuilder {
 
@@ -42,10 +45,17 @@ public class ConfigurationBuilder {
         this.cmd = cmd;
     }
 
-    public void getSwaggerBuilder() {
+    public Swagger2MarkupConfigBuilder getSwaggerBuilder() {
         Swagger2MarkupConfigBuilder configBuilder = getSwagger2MarkupConfigBuilder();
+        return configBuilder;
     }
 
+    /**
+     * Reads parameters from the cmd variable and builds the {@link Swagger2MarkupConfigBuilder}.
+     * Reads the GroupBy, group and generateExamples from cmd.
+     * Sets pageBreakLocations, which are currently hardcoded.
+     * @return an instance of a {@link Swagger2MarkupConfigBuilder}
+     */
     private Swagger2MarkupConfigBuilder getSwagger2MarkupConfigBuilder() {
         GroupBy group = (cmd.hasOption('g')) ? GroupBy.TAGS : GroupBy.AS_IS;
         group = (cmd.hasOption('r')) ? GroupBy.REGEX : group;
@@ -58,9 +68,18 @@ public class ConfigurationBuilder {
                 .withPathsGroupedBy(group)
                 .withInterDocumentCrossReferences()
                 .withPageBreaks(pageBreakLocations);
+
+        boolean generateExamples = (cmd.hasOption('e'));
+        if (generateExamples) configBuilder.withGeneratedExamples();
+
         return configBuilder;
     }
 
+    /**
+     * Reads any additional options present in the cmd variable for building the PDF,
+     * or if they are not present they are given default values.
+     * @return a string with options for the building of a PDF.
+     */
     public String getAdditionalPDFOptions() {
         // Parse arguments or assign default values
         String style = (cmd.hasOption('s')) ? cmd.getOptionValue('s') : "default";

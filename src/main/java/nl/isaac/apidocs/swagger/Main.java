@@ -54,41 +54,20 @@ public class Main {
             CommandLineParser parser = new DefaultParser();
             CommandLine cmd = parser.parse(options, args);
 
-            ConfigurationBuilder builder = new ConfigurationBuilder(cmd);
-
-            // Parse arguments or assign default values
-            String style = (cmd.hasOption('s')) ? cmd.getOptionValue('s') : "default";
-            String styleDir = (cmd.hasOption('d')) ? cmd.getOptionValue('d') : "styles";
-            String imagesDir = (cmd.hasOption('p')) ? cmd.getOptionValue('p') : "styles/img";
-            String fontsDir = (cmd.hasOption('f')) ? cmd.getOptionValue('f') : "styles/fonts";
-            String highlighter = (cmd.hasOption('h')) ? cmd.getOptionValue('h') : "rouge"; // <--TODO: this
-
-            String input = (cmd.hasOption('i')) ? cmd.getOptionValue('i') : "spec.yaml";
-            String output = (cmd.hasOption('o')) ? cmd.getOptionValue('o') : "api.pdf";
-            GroupBy group = (cmd.hasOption('g')) ? GroupBy.TAGS : GroupBy.AS_IS;
-            group = (cmd.hasOption('r')) ? GroupBy.REGEX : group;
-
-
-            boolean generateExamples = (cmd.hasOption('e'));
-
-            // Page break locations are currently hardcoded
-            List<PageBreakLocations> pageBreakLocations = new ArrayList<>(Collections.singletonList(PageBreakLocations.AFTER_OPERATION));
+            ConfigurationBuilder configurationBuilder = new ConfigurationBuilder(cmd);
 
             // Load Swagger spec
+            String styleDir = (cmd.hasOption('d')) ? cmd.getOptionValue('d') : "styles";
+            String input = (cmd.hasOption('i')) ? cmd.getOptionValue('i') : "spec.yaml";
+            String output = (cmd.hasOption('o')) ? cmd.getOptionValue('o') : "api.pdf";
+
             Path inputFile = Paths.get(input);
             File outputFile = new File(output);
             File templateDirectory = new File(styleDir);
 
-
             // Initialize Swagger2Markup config
-            Swagger2MarkupConfigBuilder configBuilder = new Swagger2MarkupConfigBuilder()
-                    .withMarkupLanguage(MarkupLanguage.ASCIIDOC)
-                    .withOutputLanguage(Language.EN)
-                    .withPathsGroupedBy(group)
-                    .withInterDocumentCrossReferences()
-                    .withPageBreaks(pageBreakLocations);
+            Swagger2MarkupConfigBuilder configBuilder = configurationBuilder.getSwaggerBuilder();
 
-            if (generateExamples) configBuilder.withGeneratedExamples();
             if (cmd.hasOption('r')) configBuilder.withHeaderRegex(cmd.getOptionValue('r'));
 
             Swagger2MarkupConfig config = configBuilder.build();
@@ -102,7 +81,7 @@ public class Main {
             String adoc = converter.toString();
 
             // String to append to title, used for pdf conversion parameters
-            String additional = builder.getAdditionalPDFOptions();
+            String additional = configurationBuilder.getAdditionalPDFOptions();
 
             // Find document title and append PDF options
             Pattern headerPattern = Pattern.compile("^= (.*)", Pattern.MULTILINE);
