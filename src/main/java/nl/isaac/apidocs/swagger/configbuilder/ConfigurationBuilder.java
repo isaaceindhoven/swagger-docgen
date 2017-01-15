@@ -39,7 +39,7 @@ import java.util.List;
  */
 public class ConfigurationBuilder {
 
-    private CommandLine cmd;
+    private final CommandLine cmd;
 
     public ConfigurationBuilder(CommandLine cmd) {
         this.cmd = cmd;

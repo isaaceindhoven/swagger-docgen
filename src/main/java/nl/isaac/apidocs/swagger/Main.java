@@ -20,9 +20,9 @@
 
 package nl.isaac.apidocs.swagger;
 
-import io.github.swagger2markup.*;
+import io.github.swagger2markup.Swagger2MarkupConfig;
+import io.github.swagger2markup.Swagger2MarkupConverter;
 import io.github.swagger2markup.builder.Swagger2MarkupConfigBuilder;
-import io.github.swagger2markup.markup.builder.MarkupLanguage;
 import nl.isaac.apidocs.swagger.configbuilder.ConfigurationBuilder;
 import nl.isaac.apidocs.swagger.factory.OptionFactory;
 import org.apache.commons.cli.CommandLine;
@@ -36,9 +36,6 @@ import org.asciidoctor.SafeMode;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
