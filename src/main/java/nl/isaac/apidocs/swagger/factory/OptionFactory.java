@@ -31,6 +31,7 @@ public final class OptionFactory {
 
     /**
      * Builds an option class and returns it.
+     * Currently all hard-coded values.
      * @return {@link org.apache.commons.cli.Options}
      */
     public static Options getOptions() {
