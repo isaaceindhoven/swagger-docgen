@@ -23,6 +23,7 @@ package nl.isaac.apidocs.swagger;
 import io.github.swagger2markup.*;
 import io.github.swagger2markup.builder.Swagger2MarkupConfigBuilder;
 import io.github.swagger2markup.markup.builder.MarkupLanguage;
+import nl.isaac.apidocs.swagger.configbuilder.ConfigurationBuilder;
 import nl.isaac.apidocs.swagger.factory.OptionFactory;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -52,6 +53,8 @@ public class Main {
 
             CommandLineParser parser = new DefaultParser();
             CommandLine cmd = parser.parse(options, args);
+
+            ConfigurationBuilder builder = new ConfigurationBuilder(cmd);
 
             // Parse arguments or assign default values
             String style = (cmd.hasOption('s')) ? cmd.getOptionValue('s') : "default";
@@ -99,18 +102,7 @@ public class Main {
             String adoc = converter.toString();
 
             // String to append to title, used for pdf conversion parameters
-            String additional = "\n";
-
-
-            // add PDF options to additional string
-            // Must be added directly below document title
-            if (cmd.hasOption('t')) additional += ":toc:\n";
-            additional += String.format(":pdf-stylesdir: %s\n", styleDir);
-            additional += String.format(":pdf-fontsdir: %s\n", fontsDir);
-            additional += String.format(":pdf-style: %s\n", style);
-            additional += String.format(":imagesdir: %s\n", imagesDir);
-            additional += String.format(":source-highlighter: %s\n", highlighter);
-            if (cmd.hasOption('r')) additional += ":toclevels: 3";
+            String additional = builder.getAdditionalPDFOptions();
 
             // Find document title and append PDF options
             Pattern headerPattern = Pattern.compile("^= (.*)", Pattern.MULTILINE);

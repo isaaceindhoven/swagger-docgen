@@ -26,7 +26,6 @@ import io.github.swagger2markup.PageBreakLocations;
 import io.github.swagger2markup.builder.Swagger2MarkupConfigBuilder;
 import io.github.swagger2markup.markup.builder.MarkupLanguage;
 import org.apache.commons.cli.CommandLine;
-import org.apache.commons.collections.ArrayStack;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,5 +59,28 @@ public class ConfigurationBuilder {
                 .withInterDocumentCrossReferences()
                 .withPageBreaks(pageBreakLocations);
         return configBuilder;
+    }
+
+    public String getAdditionalPDFOptions() {
+        // Parse arguments or assign default values
+        String style = (cmd.hasOption('s')) ? cmd.getOptionValue('s') : "default";
+        String styleDir = (cmd.hasOption('d')) ? cmd.getOptionValue('d') : "styles";
+        String imagesDir = (cmd.hasOption('p')) ? cmd.getOptionValue('p') : "styles/img";
+        String fontsDir = (cmd.hasOption('f')) ? cmd.getOptionValue('f') : "styles/fonts";
+        String highlighter = (cmd.hasOption('h')) ? cmd.getOptionValue('h') : "rouge"; // <--TODO: this
+
+        // String to append to title, used for pdf conversion parameters
+        String additional = "\n";
+
+        // add PDF options to additional string
+        // Must be added directly below document title
+        if (cmd.hasOption('t')) additional += ":toc:\n";
+        additional += String.format(":pdf-stylesdir: %s\n", styleDir);
+        additional += String.format(":pdf-fontsdir: %s\n", fontsDir);
+        additional += String.format(":pdf-style: %s\n", style);
+        additional += String.format(":imagesdir: %s\n", imagesDir);
+        additional += String.format(":source-highlighter: %s\n", highlighter);
+        if (cmd.hasOption('r')) additional += ":toclevels: 3";
+        return additional;
     }
 }
