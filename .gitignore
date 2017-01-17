@@ -3,4 +3,6 @@ target/
 build/
 /spec/
 .idea/
-
+.settings/
+.classpath
+.project
