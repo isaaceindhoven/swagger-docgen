@@ -46,8 +46,7 @@ public class ConfigurationBuilder {
     }
 
     public Swagger2MarkupConfigBuilder getSwaggerBuilder() {
-        Swagger2MarkupConfigBuilder configBuilder = getSwagger2MarkupConfigBuilder();
-        return configBuilder;
+        return getSwagger2MarkupConfigBuilder();
     }
 
     /**
