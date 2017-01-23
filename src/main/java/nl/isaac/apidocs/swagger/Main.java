@@ -20,9 +20,11 @@
 
 package nl.isaac.apidocs.swagger;
 
-import io.github.swagger2markup.*;
+import io.github.swagger2markup.Swagger2MarkupConfig;
+import io.github.swagger2markup.Swagger2MarkupConverter;
 import io.github.swagger2markup.builder.Swagger2MarkupConfigBuilder;
-import io.github.swagger2markup.markup.builder.MarkupLanguage;
+import nl.isaac.apidocs.swagger.configbuilder.ConfigurationBuilder;
+import nl.isaac.apidocs.swagger.factory.OptionFactory;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -34,9 +36,6 @@ import org.asciidoctor.SafeMode;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,58 +46,25 @@ public class Main {
     public static void main(String[] args) {
         try {
             // Setup CLI argument parsing
-            Options options = new Options();
-            options.addOption("i", "input", true, "Input file");
-            options.addOption("o", "output", true, "Output file");
-
-            options.addOption("s", "style", true, "Asciidoctor PDF style");
-            options.addOption("d", "styledir", true, "Asciidoctor style directory");
-            options.addOption("p", "imagesdir", true, "Asciidoctor images directory");
-            options.addOption("f", "fontsdir", true, "Asciidoctor fonts directory");
-            options.addOption("t", "toc", false, "Include table of contents");
-            options.addOption("h", "highlighter", true, "Source code highlighter. Possible falues: rouge, pygments, coderay");
-            options.addOption("r", "headerregex", true, "Regex pattern used for determining operation categories. First capture group will be category name. Cannot be combined with -g");
-
-            options.addOption("g", "groupbytags", false, "Group paths by tags, cannot be combined with -r");
-            options.addOption("e", "examples", false, "Generate examples where none are defined");
-
+            Options options = OptionFactory.getOptions();
 
             CommandLineParser parser = new DefaultParser();
             CommandLine cmd = parser.parse(options, args);
 
-            // Parse arguments or assign default values
-            String style = (cmd.hasOption('s')) ? cmd.getOptionValue('s') : "default";
-            String styleDir = (cmd.hasOption('d')) ? cmd.getOptionValue('d') : "styles";
-            String imagesDir = (cmd.hasOption('p')) ? cmd.getOptionValue('p') : "styles/img";
-            String fontsDir = (cmd.hasOption('f')) ? cmd.getOptionValue('f') : "styles/fonts";
-            String highlighter = (cmd.hasOption('h')) ? cmd.getOptionValue('h') : "rouge"; // <--TODO: this
-
-            String input = (cmd.hasOption('i')) ? cmd.getOptionValue('i') : "spec.yaml";
-            String output = (cmd.hasOption('o')) ? cmd.getOptionValue('o') : "api.pdf";
-            GroupBy group = (cmd.hasOption('g')) ? GroupBy.TAGS : GroupBy.AS_IS;
-            group = (cmd.hasOption('r')) ? GroupBy.REGEX : group;
-
-
-            boolean generateExamples = (cmd.hasOption('e'));
-
-            // Page break locations are currently hardcoded
-            List<PageBreakLocations> pageBreakLocations = new ArrayList<>(Collections.singletonList(PageBreakLocations.AFTER_OPERATION));
+            ConfigurationBuilder configurationBuilder = new ConfigurationBuilder(cmd);
 
             // Load Swagger spec
+            String styleDir = (cmd.hasOption('d')) ? cmd.getOptionValue('d') : "styles";
+            String input = (cmd.hasOption('i')) ? cmd.getOptionValue('i') : "spec.yaml";
+            String output = (cmd.hasOption('o')) ? cmd.getOptionValue('o') : "api.pdf";
+
             Path inputFile = Paths.get(input);
             File outputFile = new File(output);
             File templateDirectory = new File(styleDir);
 
-
             // Initialize Swagger2Markup config
-            Swagger2MarkupConfigBuilder configBuilder = new Swagger2MarkupConfigBuilder()
-                    .withMarkupLanguage(MarkupLanguage.ASCIIDOC)
-                    .withOutputLanguage(Language.EN)
-                    .withPathsGroupedBy(group)
-                    .withInterDocumentCrossReferences()
-                    .withPageBreaks(pageBreakLocations);
+            Swagger2MarkupConfigBuilder configBuilder = configurationBuilder.getSwaggerBuilder();
 
-            if (generateExamples) configBuilder.withGeneratedExamples();
             if (cmd.hasOption('r')) configBuilder.withHeaderRegex(cmd.getOptionValue('r'));
 
             Swagger2MarkupConfig config = configBuilder.build();
@@ -112,18 +78,7 @@ public class Main {
             String adoc = converter.toString();
 
             // String to append to title, used for pdf conversion parameters
-            String additional = "\n";
-
-
-            // add PDF options to additional string
-            // Must be added directly below document title
-            if (cmd.hasOption('t')) additional += ":toc:\n";
-            additional += String.format(":pdf-stylesdir: %s\n", styleDir);
-            additional += String.format(":pdf-fontsdir: %s\n", fontsDir);
-            additional += String.format(":pdf-style: %s\n", style);
-            additional += String.format(":imagesdir: %s\n", imagesDir);
-            additional += String.format(":source-highlighter: %s\n", highlighter);
-            if (cmd.hasOption('r')) additional += ":toclevels: 3";
+            String additional = configurationBuilder.getAdditionalPDFOptions();
 
             // Find document title and append PDF options
             Pattern headerPattern = Pattern.compile("^= (.*)", Pattern.MULTILINE);
@@ -134,7 +89,7 @@ public class Main {
                 adoc = m.replaceFirst(replacement);
             }
 
-            // Create asciidoctor-j instance for convesion to PDF
+            // Create asciidoctor-j instance for conversion to PDF
             Asciidoctor asciidoctor = create();
 
             OptionsBuilder asciidocOptions = options();
