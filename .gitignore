@@ -6,3 +6,4 @@ build/
 .settings/
 .classpath
 .project
+*.iml
