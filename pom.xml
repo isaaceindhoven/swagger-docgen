@@ -7,10 +7,11 @@
     <groupId>nl.isaac.apidocs</groupId>
     <artifactId>Swagger</artifactId>
     <version>1.0.0</version>
+	
     <licenses>
         <license>
-            <name>GNU General Public License (GPL)</name>
-            <url>https://www.gnu.org/licenses/gpl-3.0.txt</url>
+            <name>The MIT license</name>
+            <url>https://opensource.org/licenses/MIT</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -22,7 +23,7 @@
         <developer>
             <id>cascer1</id>
             <name>Cas Eliëns</name>
-            <email>cas.eliens+github@gmail.com</email>
+            <email>cas.eliens@isaac.nl</email>
             <roles>
                 <role>developer</role>
             </roles>
